@@ -22,7 +22,7 @@
    ```
 6. เปิดไฟล์ index.html
    ```
-   code ./index.html
+   code .
    ```
 7. เปิด server live
    ```

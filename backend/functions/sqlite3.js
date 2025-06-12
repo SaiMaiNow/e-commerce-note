@@ -1,17 +1,19 @@
 const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 
-const db = null;
+let db = null;
 
 function connectDatabase() {
     try {
-        db = new sqlite3.Database('../database/database.db');
+        const dbPath = path.join(__dirname, '..', 'database', 'database.db');
+        db = new sqlite3.Database(dbPath);
 
         db.run(`CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INT AUTO_INCREMENT PRIMARY KEY,
             username TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL
-            birthday TEXT NOT NULL,
+            password TEXT NOT NULL,
+            birthday TEXT NOT NULL
         )`);
 
         return db;
