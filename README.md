@@ -21,13 +21,13 @@
    cd ..
    ```
 6. เปิดไฟล์ index.html
-  ```
-  code ./index.html
-  ```
+   ```
+   code ./index.html
+   ```
 7. เปิด server live
-  ```
-  คลิ๊กขวาหน้า index.html > Open with Live Server
-  ```
+   ```
+   คลิ๊กขวาหน้า index.html > Open with Live Server
+   ```
 
 ## ผู้พัฒนา
 
