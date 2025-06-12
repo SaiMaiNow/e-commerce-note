@@ -1,0 +1,27 @@
+{
+  "name": "e-commerce-note",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/SaiMaiNow/e-commerce-note#readme",
+  "bugs": {
+    "url": "https://github.com/SaiMaiNow/e-commerce-note/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaiMaiNow/e-commerce-note.git"
+  },
+  "license": "ISC",
+  "author": "rachanon",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "sqlite": "^5.1.1"
+  }
+}
