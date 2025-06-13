@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const fs = require('fs/promises');
+const path = require('path');
+
 const session = require('express-session');
 
 const sqlite3 = require('./functions/sqlite3');
@@ -28,12 +31,37 @@ app.use(session({
     try {
         db = await sqlite3.connectDatabase();
         console.log('Database connectioning...');
+
+        const uploadsPath = path.join(__dirname, 'uploads');
+        try {
+            await fs.access(uploadsPath);
+        } catch {
+            await fs.mkdir(uploadsPath, { recursive: true });
+        }
     } catch (error) {
         console.error('database:', error);
     }
 })();
 
 app.use('/api', require('./routes/app'));
+
+app.use('/media', (req, res, next) => {
+    const filePath = req.url;
+
+     if (filePath.endsWith('.png')) {
+        res.setHeader('Content-Type', 'image/png');
+    } else if (filePath.endsWith('.jpg') || filePath.endsWith('.jpeg')) {
+        res.setHeader('Content-Type', 'image/jpeg');
+    } else {
+        res.setHeader('Content-Disposition', 'attachment');
+    }
+    
+    res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    
+    next();
+}, express.static(path.join(__dirname, 'uploads')));
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

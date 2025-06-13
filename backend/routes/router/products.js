@@ -16,10 +16,22 @@ router.get('/get-all', async (req, res) => {
             }
 
             if (!rows || rows.length === 0) {
-                return res.status(404).json({ error: 'No products found' });
+                return res.status(200).json({
+                    products: [],
+                });
             }
 
-            return res.status(200).json(rows);
+            return res.status(200).json({
+                products: rows.map(row => ({
+                    id: row.id,
+                    name: row.name,
+                    price: row.price,
+                    description: row.description,
+                    image: row.image,
+                    file: row.file,
+                    token: row.token
+                }))
+            });
         });
     } catch (error) {
         console.error('Error fetching products:', error);
