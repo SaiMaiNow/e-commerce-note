@@ -9,7 +9,7 @@ function connectDatabase() {
         db = new sqlite3.Database(dbPath);
 
         db.run(`CREATE TABLE IF NOT EXISTS users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
@@ -24,8 +24,8 @@ function connectDatabase() {
             image TEXT NOT NULL,
             file TEXT NOT NULL,
             token TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        )`)
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )`);
 
         return db;
     } catch (err) {
