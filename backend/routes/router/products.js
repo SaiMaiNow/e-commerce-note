@@ -91,3 +91,25 @@ router.put('/update/:token', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+router.delete('/delete/:token', async (req, res) => {
+    try {
+        const { token } = req.params;
+
+        const db = await sqlite3.getDatabase();
+        db.run(`DELETE FROM products WHERE token = ?`, [token], function (err) {
+            if (err) {
+                throw new Error(err);
+            }
+
+            if (this.changes === 0) {
+                return res.status(404).json({ error: 'Product not found' });
+            }
+
+            res.status(200).json({ message: 'Product deleted successfully' });
+        });
+    } catch (err) {
+        console.error('Error deleting product:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
