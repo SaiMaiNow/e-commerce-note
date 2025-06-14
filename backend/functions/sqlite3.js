@@ -13,7 +13,10 @@ function connectDatabase() {
             username TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
-            birthday TEXT NOT NULL
+            birthday TEXT NOT NULL,
+            cart TEXT NOT NULL DEFAULT '[]',
+            owner TEXT NOT NULL DEFAULT '[]',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
 
         db.run(`CREATE TABLE IF NOT EXISTS products (
@@ -24,6 +27,8 @@ function connectDatabase() {
             image TEXT NOT NULL,
             file TEXT NOT NULL,
             token TEXT NOT NULL,
+            owner INTEGER NOT NULL,
+            FOREIGN KEY (owner) REFERENCES users(id),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
 
