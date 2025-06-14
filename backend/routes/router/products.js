@@ -9,8 +9,8 @@ const { upload, deleteFile } = require('../../functions/storage');
 
 router.get('/get-all', async (req, res) => {
     try {
-        const db = await sqlite3.connectDatabase();
-        db.run(`SELECT * FROM products`, [], (err, rows) => {
+        const db = await sqlite3.getDatabase();
+        db.all('SELECT * FROM users', [], (err, rows) => {
             if (err) {
                 throw new Error(err);
             }
@@ -64,14 +64,14 @@ router.post('/create', [upload.fields([
                 if (err) {
                     throw new Error(err);
                 }
+
+                res.status(201).json({
+                    message: 'Product created successfully', product: {
+                        name, price, description, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
+                    }
+                });
             }
         );
-
-        res.status(201).json({
-            message: 'Product created successfully', product: {
-                name, price, description, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
-            }
-        });
     } catch (err) {
         console.error('Error creating product:', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -112,14 +112,14 @@ router.put('/update/:token', [upload.fields([
                     deleteFile(rows[0].file);
                     db.run(`UPDATE products SET file = ? WHERE token = ?`, [files.file[0].fileUrl, token]);
                 }
+
+                res.status(200).json({
+                    message: 'Product updated successfully', product: {
+                        id, name, price, description, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
+                    }
+                });
             }
         );
-
-        res.status(200).json({
-            message: 'Product updated successfully', product: {
-                id, name, price, description, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
-            }
-        });
     } catch (err) {
         console.error('Error updating product:', err);
         res.status(500).json({ error: 'Internal Server Error' });

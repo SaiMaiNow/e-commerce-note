@@ -14,21 +14,27 @@ router.post('/', async (req, res) => {
 
         const db = await sqlite3.getDatabase();
 
-        await db.run(`SELECT * FROM users WHERE username = ? OR email = ?`, [username, email], (err, row) => {
-            if (err) {
-                throw new Error(err);
-            }
-
-            if (row.length > 0) {
-                return res.status(400).json({ message: 'Username or email already exists' });
-            }
+        const userExists = await new Promise((resolve, reject) => {
+            db.get(`SELECT * FROM users WHERE username = ? OR email = ?`, [username, email],
+                (err, row) => {
+                    if (err) return reject(err);
+                    resolve(row);
+                }
+            );
         });
 
+        if (userExists) {
+            return res.status(409).json({ message: 'Username or email already exists' });
+        }
+
         const encrypted = obfuscator.encrypted(password);
-        await db.run(`INSERT INTO users (username, email, password, birthday) VALUES (?, ?, ?, ?)`, [username, email, encrypted, birthday], function (err) {
-            if (err) {
-                throw new Error(err);
-            }
+        await new Promise((resolve, reject) => {
+            db.run(`INSERT INTO users (username, email, password, birthday) VALUES (?, ?, ?, ?)`, [username, email, encrypted, birthday],
+                function (err) {
+                    if (err) return reject(err);
+                    resolve();
+                }
+            );
         });
 
         req.session.user = {
