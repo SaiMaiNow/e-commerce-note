@@ -4,7 +4,7 @@ const router = express.Router();
 const sqlite3 = require('../../functions/sqlite3');
 const obfuscator = require('../../functions/obfuscator');
 
-router.post('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -13,23 +13,23 @@ router.post('/', async (req, res) => {
 
         const db = await sqlite3.getDatabase();
         const encrypted = obfuscator.encrypted(password);
-        db.get(`SELECT * FROM users WHERE email = ? AND password = ?`, [email, encrypted], (err, row) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).json({ message: 'Internal server error' });
-            }
-
-            if (!row) {
-                return res.status(401).json({ message: 'Invalid username or password' });
-            }
-
-            req.session.user = {
-                username: row.username,
-                email: row.email
-            };
-
-            res.status(200).json({ message: 'Signin successful' });
+        const userExists = await new Promise((resolve, reject) => {
+            db.get(`SELECT * FROM users WHERE email = ? AND password = ?`, [email, encrypted], (err, row) => {
+                if (err) return reject(err);
+                resolve(row);
+            });
         });
+
+        if (!userExists) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        req.session.user = {
+            username: userExists.username,
+            email: userExists.email
+        };
+
+        res.status(200).json({ message: 'Signin successful' });
     } catch (err) {
         console.error('Signin / :', err);
         res.status(500).json({ message: 'Internal server error' });
@@ -52,7 +52,7 @@ router.post('/logout', (req, res) => {
     }
 });
 
-router.get('/chack', async (req, res) => {
+router.get('/check', async (req, res) => {
     try {
         if (!req.session.user) {
             return res.status(401).json({ message: 'Not authenticated' });
