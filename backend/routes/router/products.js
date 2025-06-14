@@ -10,18 +10,20 @@ const { upload, deleteFile } = require('../../functions/storage');
 router.get('/get-all', async (req, res) => {
     try {
         const db = await sqlite3.getDatabase();
-        db.all('SELECT * FROM users', [], (err, rows) => {
+        db.all('SELECT * FROM products', [], (err, rows) => {
             if (err) {
                 throw new Error(err);
             }
 
             if (!rows || rows.length === 0) {
                 return res.status(200).json({
+                    ok: true,
                     products: [],
                 });
             }
 
             return res.status(200).json({
+                ok: true,
                 products: rows.map(row => ({
                     id: row.id,
                     name: row.name,
@@ -35,7 +37,7 @@ router.get('/get-all', async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching products:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ok:false, error: 'Internal Server Error' });
     }
 });
 
@@ -48,11 +50,11 @@ router.post('/create', [upload.fields([
         const files = req.files;
 
         if (!files || !files.image || !files.file) {
-            return res.status(400).json({ error: 'Image and file are required' });
+            return res.status(400).json({ok:false, error: 'Image and file are required' });
         }
 
         if (!name || !price || !description) {
-            return res.status(400).json({ error: 'All fields are required' });
+            return res.status(400).json({ok:false, error: 'All fields are required' });
         }
 
         const db = await sqlite3.getDatabase();
@@ -66,6 +68,7 @@ router.post('/create', [upload.fields([
                 }
 
                 res.status(201).json({
+                    ok: true,
                     message: 'Product created successfully', product: {
                         name, price, description, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
                     }
@@ -74,7 +77,7 @@ router.post('/create', [upload.fields([
         );
     } catch (err) {
         console.error('Error creating product:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ok:false, error: 'Internal Server Error' });
     }
 });
 
@@ -88,7 +91,7 @@ router.put('/update/:token', [upload.fields([
         const files = req.files;
 
         if (!name || !price || !description) {
-            return res.status(400).json({ error: 'All fields are required' });
+            return res.status(400).json({ok:false, error: 'All fields are required' });
         }
 
         const db = await sqlite3.getDatabase();
@@ -96,7 +99,7 @@ router.put('/update/:token', [upload.fields([
             [name, price, description, token],
             function (err, rows) {
                 if (rows.length === 0) {
-                    return res.status(404).json({ error: 'Product not found' });
+                    return res.status(404).json({ok:false, error: 'Product not found' });
                 }
 
                 if (err) {
@@ -114,6 +117,7 @@ router.put('/update/:token', [upload.fields([
                 }
 
                 res.status(200).json({
+                    ok: true,
                     message: 'Product updated successfully', product: {
                         id, name, price, description, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
                     }
@@ -122,7 +126,7 @@ router.put('/update/:token', [upload.fields([
         );
     } catch (err) {
         console.error('Error updating product:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ok:false, error: 'Internal Server Error' });
     }
 });
 
@@ -137,14 +141,14 @@ router.delete('/delete/:token', async (req, res) => {
             }
 
             if (this.changes === 0) {
-                return res.status(404).json({ error: 'Product not found' });
+                return res.status(404).json({ok:false, error: 'Product not found' });
             }
 
-            res.status(200).json({ message: 'Product deleted successfully' });
+            res.status(200).json({ok:true, message: 'Product deleted successfully' });
         });
     } catch (err) {
         console.error('Error deleting product:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ok:false, error: 'Internal Server Error' });
     }
 });
 
