@@ -28,7 +28,6 @@ function connectDatabase() {
             file TEXT NOT NULL,
             token TEXT NOT NULL,
             owner INTEGER NOT NULL,
-            FOREIGN KEY (owner) REFERENCES users(id),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
 
