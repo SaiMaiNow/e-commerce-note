@@ -1,6 +1,8 @@
+
 :root {
   --jumbotron-padding-y: 3rem;
 }
+
 
 .jumbotron {
   padding-top: var(--jumbotron-padding-y);
@@ -49,3 +51,29 @@ footer p {
 .dropdown-item{
   font-family: Arial;
 }
+
+.product-price {
+  font-size: 1.2rem;
+}
+
+
+
+.product-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
+.product-image {
+  position: relative !important;
+}
+
+.badge-button {
+  background-color: red !important;
+  color: white !important;
+  padding: 0.25rem 0.5rem !important;
+  font-weight: bold !important;
+  border-radius: 0.25rem !important;
+}
+
