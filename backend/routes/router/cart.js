@@ -54,4 +54,31 @@ router.post('/add', async (req, res) => {
     }
 });
 
+router.put('/update', async (req, res) => {
+    try {
+        const { cart } = req.body;
+        if (!username || !cart || !Array.isArray(cart)) {
+            return res.status(400).json({ ok:false, message: 'Username and cart are required' });
+        }
+        const username = req.session.user.username;
+        if (!username) {
+            return res.status(401).json({ ok:false, message: 'User not authenticated' });
+        }
+
+        const db = await sqlite3.getDatabase();
+
+        await new Promise((resolve, reject) => {
+            db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(cart), username], (err) => {
+                if (err) return reject(err);
+                resolve();
+            });
+        });
+
+        res.status(200).json({ ok:true, message: 'Cart updated successfully' });
+    } catch (err) {
+        console.error('Update cart / :', err);
+        res.status(500).json({ ok:false, message: 'Internal server error' });
+    }
+});
+
 module.exports = router;

@@ -4,7 +4,7 @@ const router = express.Router();
 const sqlite3 = require('../../functions/sqlite3');
 const obfuscator = require('../../functions/obfuscator');
 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
