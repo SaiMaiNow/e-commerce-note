@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            return res.status(400).json({ message: 'Email and password are required' });
+            return res.status(400).json({ok:false, message: 'Email and password are required' });
         }
 
         const db = await sqlite3.getDatabase();
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
         });
 
         if (!userExists) {
-            return res.status(401).json({ message: 'Invalid email or password' });
+            return res.status(401).json({ok:false, message: 'Invalid email or password' });
         }
 
         req.session.user = {
@@ -29,10 +29,10 @@ router.get('/', async (req, res) => {
             email: userExists.email
         };
 
-        res.status(200).json({ message: 'Signin successful' });
+        res.status(200).json({ok:true, message: 'Signin successful' });
     } catch (err) {
         console.error('Signin / :', err);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ok:false, message: 'Internal server error' });
     }
 });
 
@@ -41,24 +41,25 @@ router.post('/logout', (req, res) => {
         req.session.destroy(err => {
             if (err) {
                 console.error('Logout:', err);
-                return res.status(500).json({ message: 'Internal server error' });
+                return res.status(500).json({ok:false, message: 'Internal server error' });
             }
 
-            res.status(200).json({ message: 'Logout successful' });
+            res.status(200).json({ok:true, message: 'Logout successful' });
         });
     } catch (err) {
         console.error('Logout / :', err);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ok:false, message: 'Internal server error' });
     }
 });
 
 router.get('/check', async (req, res) => {
     try {
         if (!req.session.user) {
-            return res.status(401).json({ message: 'Not authenticated' });
+            return res.status(401).json({ok:false, message: 'Not authenticated' });
         }
 
         return res.status(200).json({
+            ok: true,
             message: 'Authenticated',
             user: {
                 username: req.session.user.username,
@@ -67,7 +68,7 @@ router.get('/check', async (req, res) => {
         });
     } catch (err) {
         console.error('Signin / check:', err);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ok:true, message: 'Internal server error' });
     }
 });
 

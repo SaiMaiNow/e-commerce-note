@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
         const { username, email, password, birthday } = req.body;
 
         if (!username || !email || !password || !birthday) {
-            return res.status(400).json({ message: 'not found data' });
+            return res.status(400).json({ok:false, message: 'not found data' });
         }
 
         const db = await sqlite3.getDatabase();
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
         });
 
         if (userExists) {
-            return res.status(409).json({ message: 'Username or email already exists' });
+            return res.status(409).json({ok:false, message: 'Username or email already exists' });
         }
 
         const encrypted = obfuscator.encrypted(password);
@@ -42,10 +42,10 @@ router.post('/', async (req, res) => {
             email: email
         };
 
-        res.status(201).json({ message: 'User registered successfully' });
+        res.status(201).json({ ok: true, message: 'User registered successfully' });
     } catch (err) {
         console.error('Register / :', err);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ ok:false, message: 'Internal server error' });
     }
 });
 

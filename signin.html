@@ -86,12 +86,15 @@
   </header>
 
   <main class="d-flex align-items-start justify-content-center pb-5 min-vh-100">
-    <form class="form-signin w-100 m-auto"> 
+    <form id="signin-form" class="form-signin w-100 m-auto"> 
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-      <div class="form-floating"> <input type="email" class="form-control" id="floatingInput"
+
+      <div class="form-floating"> <input type="email" class="form-control" name="email"
           placeholder="name@example.com"> <label for="floatingInput">Email address</label> </div>
-      <div class="form-floating"> <input type="password" class="form-control" id="floatingPassword"
+
+      <div class="form-floating"> <input type="password" class="form-control" name="password"
           placeholder="Password"> <label for="floatingPassword">Password</label> </div>
+
       <div class="form-check text-start my-3"> 
         <input class="form-check-input" type="checkbox" value="remember-me" id="checkDefault"> 
           <label class="form-check-label" for="checkDefault">
@@ -102,6 +105,7 @@
     </form>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="scripts/signin.js"></script>
 </body>
 
 </html>
