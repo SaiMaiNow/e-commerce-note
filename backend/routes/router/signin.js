@@ -4,7 +4,7 @@ const router = express.Router();
 const sqlite3 = require('../../functions/sqlite3');
 const obfuscator = require('../../functions/obfuscator');
 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -26,7 +26,8 @@ router.get('/', async (req, res) => {
 
         req.session.user = {
             username: userExists.username,
-            email: userExists.email
+            email: userExists.email,
+            cart: userExists.cart ? JSON.parse(userExists.cart) : []
         };
 
         res.status(200).json({ok:true, message: 'Signin successful' });
@@ -63,7 +64,8 @@ router.get('/check', async (req, res) => {
             message: 'Authenticated',
             user: {
                 username: req.session.user.username,
-                email: req.session.user.email
+                email: req.session.user.email,
+                cart: req.session.user.cart || []
             }
         });
     } catch (err) {
