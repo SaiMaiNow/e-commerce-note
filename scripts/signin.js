@@ -1,6 +1,7 @@
 const ajax = async (config) => {
   const request = await fetch(config.url, {
     method: config.method,
+    credentials: 'include',
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
