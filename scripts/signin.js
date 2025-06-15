@@ -54,13 +54,5 @@ document.getElementById("signin-form").addEventListener("submit", async function
       window.location.href = 'index.html';
     });
 
-    if (!response.ok) {
-      Swal.fire({
-        icon: "error",
-        title: "Signin failed!",
-        text: response.message || "Something went wrong!",
-      });
-      return;
-    }
    
 });
