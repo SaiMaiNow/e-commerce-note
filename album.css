@@ -52,11 +52,22 @@ footer p {
   font-family: Arial;
 }
 
-.product-price {
-  font-size: 1.2rem;
+
+
+/*Index*/
+
+.navbarHeader a {
+    text-decoration: none; /* ลบเส้นใต้ */
+    transition: color 0.3s ease; /* ทำให้เปลี่ยนสีลื่นขึ้น */
+  }
+
+.navbarHeader a:hover {
+    color: #fd7e14 !important; /* สีส้มเมื่อ hover */
+  }
+
+.product-image {
+  position: relative;
 }
-
-
 
 .product-image img {
   display: block;
@@ -64,16 +75,18 @@ footer p {
   height: auto;
 }
 
-/*
-.product-image {
-  position: relative !important;
+.product-price {
+  font-size: 1.2rem;
 }
 
+
+
 .badge-button {
-  background-color: red !important;
-  color: white !important;
-  padding: 0.25rem 0.5rem !important;
-  font-weight: bold !important;
-  border-radius: 0.25rem !important;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
 }
-*/
+
+/* signin */
+
