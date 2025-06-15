@@ -14,7 +14,10 @@ const PORT = 4000;
 
 let db = null;
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5500',
+    credentials: true
+}));
 app.use(bodyParser.json());
 
 app.use(session({
