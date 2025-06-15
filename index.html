@@ -55,7 +55,7 @@
               <li><a href="register.html" class="text-white"><i class="bi bi-person me-2"></i>Login</a></li>
             </ul>
           </div>
-  
+
           <!-- Right side: Contact -->
           <div class="col-sm-4 offset-md-1 py-4">
             <h4 class="text-white">Contact</h4>
@@ -68,43 +68,44 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Top Navbar -->
     <div class="navbar navbar-dark bg-dark box-shadow">
       <div class="container d-flex justify-content-between">
         <a href="#" class="navbar-brand d-flex align-items-center">
           <strong><i class="bi bi-journal-text me-2"></i>NOTEKUB</strong>
         </a>
-  
+
         <!-- Desktop Menu -->
         <div class="d-none d-lg-flex align-items-center">
-          <a href="index.html" class="text-white me-3" title="Home"><i class="bi bi-house" ></i></a>
+          <a href="index.html" class="text-white me-3" title="Home"><i class="bi bi-house"></i></a>
           <a href="#" class="text-white me-3" title="Search"><i class="bi bi-search"></i></a>
           <a href="#" class="text-white me-3" title="Cart"><i class="bi bi-cart"></i></a>
           <!-- <a href="register.html" class="text-white me-3" title="Login"><i class="bi bi-person"></i></a> -->
 
-          <div class="dropdown me-3">
+          <div class="dropdown me-3" id="user-menu">
             <a class="text-white " href="#" id="userMenu" role="button">
               <i class="bi bi-person"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-              <li><a class="dropdown-item" href="signin.html" >Login</a></li>
-              <li><a class="dropdown-item" href="register.html">Register</a></li>
+              <li><a class="dropdown-item" href="signin.html" id="signin-link">Login</a></li>
+              <li><a class="dropdown-item" href="register.html" id="register-link">Register</a></li>
+              <li><a class="dropdown-item d-none" href="profile.html" id="profile-link">Profile</a></li>
+              <li><a class="dropdown-item d-none" href="#" id="logout-link">Logout</a></li>
             </ul>
           </div>
-          
+
         </div>
-  
+
         <!-- Mobile Toggle Button -->
-        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
-          data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false"
-          aria-label="Toggle navigation">
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
     </div>
   </header>
-  
+
 
   <main role="main">
 
@@ -347,6 +348,11 @@
     crossorigin="anonymous"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="scripts/index-auth.js"></script>
+  <!-- <script src="scripts/signin.js"></script> -->
+    
 </body>
 
 </html>
