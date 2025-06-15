@@ -8,6 +8,7 @@ const ajax = async (config) => {
     },
     body: JSON.stringify(config.data),
   });
+  
   const response = await request.json();
   // console.log(response.status);
   // console.log(response.message);
@@ -15,9 +16,25 @@ const ajax = async (config) => {
 
 };
 
+async function logout(){
+  console.log("logout function called");
+  let config = {
+    url: 'http://localhost:4000/api/signin/logout',
+    method: 'POST',
+    
+  }
 
-async function test(){
-  console.log("test function called");
+  let response = await ajax(config);
+  console.log(response);
+
+}
+logout();
+
+
+
+
+async function check(){
+  console.log("check function called");
   let config = {
     url: 'http://localhost:4000/api/signin/check',
     method: 'GET',
@@ -29,4 +46,7 @@ async function test(){
 
 }
 
-test();
+check();
+
+
+
