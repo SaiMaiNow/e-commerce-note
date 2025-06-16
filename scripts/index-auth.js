@@ -35,36 +35,69 @@ const ajax = async (config) => {
 //   await check();
 // });
 
-document.getElementById('logout-link').addEventListener('click', async function (e) {
-  e.preventDefault(); 
+// document.getElementById('logout-link').addEventListener('click', async function (e) {
+//   e.preventDefault(); 
 
-  console.log("logout function called");
-  let config = {
-    url: 'http://localhost:4000/api/signin/logout',
-    method: 'POST',
-  }
+//   console.log("logout function called");
+//   let config = {
+//     url: 'http://localhost:4000/api/signin/logout',
+//     method: 'POST',
+//   }
 
-  let response = await ajax(config);
+//   let response = await ajax(config);
 
-  if (!response.ok) {
+//   if (!response.ok) {
+//     Swal.fire({
+//       icon: "error",
+//       title: "Logout failed!",
+//       text: response.message || "Something went wrong!",
+//     });
+//     return;
+//   }
+
+//   Swal.fire({
+//     icon: "success",
+//     title: "Logout success!",
+//     text: response.message,
+//     showConfirmButton: false,
+//     timer: 1000
+//   }).then(() => {
+//     window.location.reload();
+//   });
+
+// });
+
+document.querySelectorAll('.logout-link').forEach(link => {
+  link.addEventListener('click', async function (e) {
+    e.preventDefault();
+
+    console.log("logout function called");
+    let config = {
+      url: 'http://localhost:4000/api/signin/logout',
+      method: 'POST',
+    }
+
+    let response = await ajax(config);
+
+    if (!response.ok) {
+      Swal.fire({
+        icon: "error",
+        title: "Logout failed!",
+        text: response.message || "Something went wrong!",
+      });
+      return;
+    }
+
     Swal.fire({
-      icon: "error",
-      title: "Logout failed!",
-      text: response.message || "Something went wrong!",
+      icon: "success",
+      title: "Logout success!",
+      text: response.message,
+      showConfirmButton: false,
+      timer: 1000
+    }).then(() => {
+      window.location.reload();
     });
-    return;
-  }
-
-  Swal.fire({
-    icon: "success",
-    title: "Logout success!",
-    text: response.message,
-    showConfirmButton: false,
-    timer: 1000
-  }).then(() => {
-    window.location.reload();
   });
-
 });
 
 
@@ -81,7 +114,7 @@ async function check(){
   // console.log(response.user);
 
   if (!response.ok) {
-    GuestMenu();
+    guestMenu();
     return;
   } 
     
@@ -90,33 +123,60 @@ async function check(){
 
 // check();
 
+// function memberMenu(user) {
+//   document.getElementById('signin-link').classList.add('d-none');
+//   document.getElementById('register-link').classList.add('d-none');
+
+//   document.getElementById('profile-link').classList.remove('d-none');
+//   document.getElementById('logout-link').classList.remove('d-none');
+
+//   //option
+//   const userMenu = document.getElementById('userMenu');
+//   if (userMenu && user.username) {
+//     userMenu.title = `Welcome, ${user.username}`;
+//   }
+// }
+
+// function guestMenu() {
+//   document.getElementById('signin-link').classList.remove('d-none');
+//   document.getElementById('register-link').classList.remove('d-none');
+
+//   document.getElementById('profile-link').classList.add('d-none');
+//   document.getElementById('logout-link').classList.add('d-none');
+
+//   //option
+//   const userMenu = document.getElementById('userMenu');
+//   if (userMenu) {
+//     userMenu.title = '';
+//   }
+// }
+
 function memberMenu(user) {
-  document.getElementById('signin-link').classList.add('d-none');
-  document.getElementById('register-link').classList.add('d-none');
+  document.querySelectorAll('.signin-link').forEach(el => el.classList.add('d-none'));
+  document.querySelectorAll('.register-link').forEach(el => el.classList.add('d-none'));
 
-  document.getElementById('profile-link').classList.remove('d-none');
-  document.getElementById('logout-link').classList.remove('d-none');
+  document.querySelectorAll('.profile-link').forEach(el => el.classList.remove('d-none'));
+  document.querySelectorAll('.logout-link').forEach(el => el.classList.remove('d-none'));
 
-  //option
   const userMenu = document.getElementById('userMenu');
   if (userMenu && user.username) {
     userMenu.title = `Welcome, ${user.username}`;
   }
 }
 
-function GuestMenu() {
-  document.getElementById('signin-link').classList.remove('d-none');
-  document.getElementById('register-link').classList.remove('d-none');
+function guestMenu() {
+  document.querySelectorAll('.signin-link').forEach(el => el.classList.remove('d-none'));
+  document.querySelectorAll('.register-link').forEach(el => el.classList.remove('d-none'));
 
-  document.getElementById('profile-link').classList.add('d-none');
-  document.getElementById('logout-link').classList.add('d-none');
+  document.querySelectorAll('.profile-link').forEach(el => el.classList.add('d-none'));
+  document.querySelectorAll('.logout-link').forEach(el => el.classList.add('d-none'));
 
-  //option
   const userMenu = document.getElementById('userMenu');
   if (userMenu) {
     userMenu.title = '';
   }
 }
+
 
 
 check();

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart - Summary Sheets</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+  <!-- Custom styles for this template -->
+  <link href="styles/album.css" rel="stylesheet">
+  <link href="styles/cart.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <!-- Mobile Menu: Collapsible -->
+    <div class="collapse bg-dark d-lg-none" id="navbarHeader">
+      <div class="container">
+        <div class="row">
+          <!-- Left: Menu -->
+          <div class="col-12 py-4">
+            <h4 class="text-white mt-4">Menu</h4>
+            <ul class="list-unstyled">
+              <li><a href="index.html" class="text-white"><i class="bi bi-house me-2"></i>Home</a></li>
+              <li><a href="#" class="text-white"><i class="bi bi-search me-2"></i>Search</a></li>
+              <li><a href="cart.html" class="text-white"><i class="bi bi-cart me-2"></i>Cart</a></li>
+              <li><a href="signin.html" class="text-white signin-link"><i class="bi bi-person me-2"></i>Login</a></li>
+              <li><a href="register.html" class="text-white register-link"><i class="bi bi-r-circle me-2"></i>Register</a></li>
+              <li><a href="profile.html" class="text-white profile-link"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
+              <li><a href="#" class="text-white logout-link"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+            <h4 class="text-white mt-4">Contact</h4>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white">Follow on Twitter</a></li>
+              <li><a href="#" class="text-white">Like on Facebook</a></li>
+              <li><a href="#" class="text-white">Email me</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Top Navbar -->
+    <div class="navbar navbar-dark bg-dark box-shadow">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+          <strong><i class="bi bi-journal-text me-2"></i>NOTEKUB</strong>
+        </a>
+  
+        <!-- Desktop Menu -->
+        <div class="d-none d-lg-flex align-items-center">
+          <a href="index.html" class="text-white me-3" title="Home"><i class="bi bi-house"></i></a>
+          <a href="#" class="text-white me-3" title="Search"><i class="bi bi-search"></i></a>
+          <a href="cart.html" class="text-white me-3" title="Cart"><i class="bi bi-cart"></i></a>
+  
+          <div class="dropdown me-3" id="user-menu">
+            <a class="text-white" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+              <li><a class="dropdown-item signin-link" href="signin.html">Login</a></li>
+              <li><a class="dropdown-item register-link" href="register.html">Register</a></li>
+              <li><a class="dropdown-item profile-link" href="profile.html">Profile</a></li>
+              <li><a class="dropdown-item logout-link" href="#">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container py-5">
+    <h2 class="mb-4">🛒 Your Cart</h2>
+    <div id="cart-content">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="cart-items">
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="https://i.imgur.com/2DsA49b.webp" class="product-img me-3 rounded" />
+                <div>
+                  <h6 class="mb-1">สรุปวิทยาศาสตร์ ม.4 เทอม 2</h6>
+                  <small class="text-muted">ผู้สรุป: พี่โม</small>
+                </div>
+              </div>
+            </td>
+            <td>$3.99</td>
+            <td>
+              <button class="btn btn-sm btn-outline-danger" onclick="removeItem(this)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="https://i.imgur.com/AItCxSs.png" class="product-img me-3 rounded" />
+                <div>
+                  <h6 class="mb-1">สรุปคณิตศาสตร์ ม.5 เทอม 1</h6>
+                  <small class="text-muted">ผู้สรุป: พี่เกรซ</small>
+                </div>
+              </div>
+            </td>
+            <td>$2.50</td>
+            <td>
+              <button class="btn btn-sm btn-outline-danger" onclick="removeItem(this)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-between">
+        <strong>Total:</strong>
+        <strong id="cart-total">$6.49</strong>
+      </div>
+      <div class="mt-4 text-end">
+        <button class="btn btn-primary">Checkout</button>
+      </div>
+    </div>
+
+    <div id="empty-cart" class="empty-cart d-none">
+      <h4>🧺 Your cart is empty</h4>
+      <p>Start adding your favorite summary sheets!</p>
+      <a href="index.html" class="btn btn-outline-primary mt-3">Browse Sheets</a>
+    </div>
+  </div>
+
+  <script src="scripts/cart.js"></script>
+</body>
+
+</html>
