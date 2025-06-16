@@ -17,20 +17,10 @@
 
 
   <!-- Custom styles for this template -->
-  <link href="styles/album.css" rel="stylesheet">
 
-<style>
-.product-image {
-  position: relative;
-}
+  <link href="album.css" rel="stylesheet">
 
-.badge-button {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  z-index: 10;
-}
-</style>
+
   
 </head>
 
@@ -38,7 +28,7 @@
 
   <header>
     <!-- Collapsible Navbar content -->
-    <div class="collapse bg-dark " id="navbarHeader">
+    <div class="collapse bg-dark navbarHeader" id="navbarHeader">
       <div class="container">
         <div class="row">
           <!-- Left side: About / Contact -->
@@ -49,10 +39,10 @@
               to some social networking sites or contact information.</p> -->
             <h4 class="text-white mt-4">Menu</h4>
             <ul class="list-unstyled">
-              <li><a href="index.html" class="text-white"><i class="bi bi-house me-2"></i>Home</a></li>
-              <li><a href="#" class="text-white"><i class="bi bi-search me-2"></i>Search</a></li>
-              <li><a href="#" class="text-white"><i class="bi bi-cart me-2"></i>Cart</a></li>
-              <li><a href="register.html" class="text-white"><i class="bi bi-person me-2"></i>Login</a></li>
+              <li><a href="index.html"  class="text-white text-decoration-none"><i class="bi bi-house me-2"></i>Home</a></li>
+              <li><a href="#"  class="text-white text-decoration-none"><i class="bi bi-search me-2"></i>Search</a></li>
+              <li><a href="#"  class="text-white text-decoration-none"><i class="bi bi-cart me-2"></i>Cart</a></li>
+              <li><a href="register.html" class="text-white text-decoration-none"><i class="bi bi-person me-2"></i>Login</a></li>
             </ul>
           </div>
 
@@ -60,9 +50,9 @@
           <div class="col-sm-4 offset-md-1 py-4">
             <h4 class="text-white">Contact</h4>
             <ul class="list-unstyled">
-              <li><a href="#" class="text-white">Follow on Twitter</a></li>
-              <li><a href="#" class="text-white">Like on Facebook</a></li>
-              <li><a href="#" class="text-white">Email me</a></li>
+              <li><a href="#"  class="text-white text-decoration-none"><i class="bi bi-twitter me-2"></i>Follow on Twitter</a></li>
+              <li><a href="#"  class="text-white text-decoration-none"><i class="bi bi-facebook me-2"></i>Like on Facebook</a></li>
+              <li><a href="#"  class="text-white text-decoration-none"><i class="bi bi-envelope-fill me-2"></i>Email me</a></li>
             </ul>
           </div>
         </div>
@@ -140,8 +130,12 @@
                 <p class="product-price text-danger fw-bold">฿19</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-success" title="Buy">
+                        <i class="bi bi-currency-dollar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" title="Add to cart">
+                        <i class="bi bi-cart"></i>
+                      </button>
                   </div>
                   <small class="text-muted">9 mins</small>
                 </div>
@@ -162,8 +156,12 @@
                 <p class="product-price text-danger fw-bold">฿19</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-success" title="Buy">
+                        <i class="bi bi-currency-dollar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" title="Add to cart">
+                        <i class="bi bi-cart"></i>
+                      </button>
                   </div>
                   <small class="text-muted">9 mins</small>
                 </div>
@@ -183,8 +181,12 @@
                 <p class="product-price text-danger fw-bold">฿19</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-success" title="Buy">
+                        <i class="bi bi-currency-dollar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" title="Add to cart">
+                        <i class="bi bi-cart"></i>
+                      </button>
                   </div>
                   <small class="text-muted">9 mins</small>
                 </div>
@@ -204,8 +206,12 @@
                 <p class="product-price text-danger fw-bold">฿19</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-success" title="Buy">
+                        <i class="bi bi-currency-dollar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" title="Add to cart">
+                        <i class="bi bi-cart"></i>
+                      </button>
                   </div>
                   <small class="text-muted">9 mins</small>
                 </div>
@@ -225,8 +231,12 @@
                 <p class="product-price text-danger fw-bold">฿19</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-success" title="Buy">
+                        <i class="bi bi-currency-dollar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" title="Add to cart">
+                        <i class="bi bi-cart"></i>
+                      </button>
                   </div>
                   <small class="text-muted">9 mins</small>
                 </div>
@@ -246,8 +256,12 @@
                 <p class="product-price text-danger fw-bold">฿19</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-success" title="Buy">
+                        <i class="bi bi-currency-dollar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" title="Add to cart">
+                        <i class="bi bi-cart"></i>
+                      </button>
                   </div>
                   <small class="text-muted">9 mins</small>
                 </div>
@@ -267,8 +281,12 @@
                 <p class="product-price text-danger fw-bold">฿19</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-success" title="Buy">
+                        <i class="bi bi-currency-dollar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" title="Add to cart">
+                        <i class="bi bi-cart"></i>
+                      </button>
                   </div>
                   <small class="text-muted">9 mins</small>
                 </div>
@@ -288,8 +306,12 @@
                 <p class="product-price text-danger fw-bold">฿19</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-success" title="Buy">
+                        <i class="bi bi-currency-dollar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" title="Add to cart">
+                        <i class="bi bi-cart"></i>
+                      </button>
                   </div>
                   <small class="text-muted">9 mins</small>
                 </div>
@@ -309,8 +331,12 @@
                 <p class="product-price text-danger fw-bold">฿19</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-success" title="Buy">
+                        <i class="bi bi-currency-dollar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" title="Add to cart">
+                        <i class="bi bi-cart"></i>
+                      </button>
                   </div>
                   <small class="text-muted">9 mins</small>
                 </div>
