@@ -65,8 +65,10 @@ document
       title: "Register success!",
       text: response.message,
       showConfirmButton: false,
-      timer: 5000
-    })
+      timer: 2000
+    }).then(() => {
+      window.location.reload();
+    });
    
     
   });

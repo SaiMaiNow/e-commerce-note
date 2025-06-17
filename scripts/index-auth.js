@@ -157,6 +157,7 @@ function memberMenu(user) {
 
   document.querySelectorAll('.profile-link').forEach(el => el.classList.remove('d-none'));
   document.querySelectorAll('.logout-link').forEach(el => el.classList.remove('d-none'));
+  document.querySelectorAll('.products-link').forEach(el => el.classList.remove('d-none'));
 
   const userMenu = document.getElementById('userMenu');
   if (userMenu && user.username) {
@@ -168,6 +169,7 @@ function guestMenu() {
   document.querySelectorAll('.signin-link').forEach(el => el.classList.remove('d-none'));
   document.querySelectorAll('.register-link').forEach(el => el.classList.remove('d-none'));
 
+  document.querySelectorAll('.products-link').forEach(el => el.classList.add('d-none'));
   document.querySelectorAll('.profile-link').forEach(el => el.classList.add('d-none'));
   document.querySelectorAll('.logout-link').forEach(el => el.classList.add('d-none'));
 
