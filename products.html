@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Sheet - NOTEKUB</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="container mt-5" style="max-width: 600px">
+    <h2 class="mb-4">📤 อัปโหลดชีทสำหรับขาย</h2>
+    <div id="alert-box"></div>
+    <form id="upload-form" class="product-form">
+      <div class="mb-3">
+        <label for="title" class="form-label">ชื่อชีท</label>
+        <input type="text" class="form-control" name="title" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">คำอธิบาย</label>
+        <textarea class="form-control" name="description" rows="3" required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="subject" class="form-label">หมวดวิชา</label>
+        <select class="form-select" name="subject" required>
+          <option value="">-- เลือกวิชา --</option>
+          <option value="math">คณิตศาสตร์</option>
+          <option value="science">วิทยาศาสตร์</option>
+          <option value="social">สังคมศึกษา</option>
+          <option value="english">ภาษาอังกฤษ</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">ราคา (บาท)</label>
+        <input type="number" class="form-control" name="price" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">รูปภาพหน้าปก (Image)</label>
+        <input type="file" class="form-control" name="image" accept=".jpg,.jpeg,.png" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="file" class="form-label">ไฟล์ชีท (PDF)</label>
+        <input type="file" class="form-control" name="file" accept=".pdf" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">อัปโหลด</button>
+    </form>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="scripts/products.js"></script>
+</body>
+
+</html>
