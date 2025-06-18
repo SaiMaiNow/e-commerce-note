@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
         }
 
         const fileUrl = `${req.protocol}://${req.get('host')}/media/${user}/${key}/${file.originalname}`;
-        req.fileUrl = fileUrl;
+        file.fileUrl = fileUrl;
         cb(null, dir);
     },
     filename: function (req, file, cd) {
