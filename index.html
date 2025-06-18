@@ -65,6 +65,7 @@
 
         <!-- Desktop Menu -->
         <div class="d-none d-lg-flex align-items-center">
+          <input class="me-3"id="searchInput" placeholder="search">
           <a href="index.html" class="nav-icon text-white me-3" title="Home"><i class="bi bi-house"></i></a>
           <a href="#" class="nav-icon text-white me-3" title="Search"><i class="bi bi-search"></i></a>
           <a href="cart.html" class="nav-icon text-white me-3" title="Cart"><i class="bi bi-cart"></i></a>
@@ -111,7 +112,7 @@
     <div class="album py-5 bg-light">
       <div class="container">
 
-        <div class="row">
+        <div class="row" id="productList">
           <div class="col-md-4">
                 <div class="card mb-4 box-shadow position-relative product-hover">
                   <a href="product-detail.html" class="text-decoration-none text-dark">
@@ -364,13 +365,6 @@
                   </button>
                </div>   
           </div>         
-
-
-
-
-
-
-
         </div>
       </div>
     </div>
@@ -397,6 +391,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="scripts/index-auth.js"></script>
   <!-- <script src="scripts/signin.js"></script> -->
+  <script src="scripts/products-display.js"></script>
 
 </body>
 
