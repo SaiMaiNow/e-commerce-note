@@ -24,6 +24,7 @@ function connectDatabase() {
             name TEXT NOT NULL,
             price DOUBLE NOT NULL,
             description TEXT NOT NULL,
+            subject TEXT NOT NULL DEFAULT 'ทั่วไป',
             image TEXT NOT NULL,
             file TEXT NOT NULL,
             token TEXT NOT NULL,

@@ -29,8 +29,8 @@ router.get('/get-all', async (req, res) => {
                     name: row.name,
                     price: row.price,
                     description: row.description,
+                    subject: row.subject,
                     image: row.image,
-                    file: row.file,
                     token: row.token
                 }))
             });
@@ -41,27 +41,48 @@ router.get('/get-all', async (req, res) => {
     }
 });
 
+router.get('/get-for-edit', async (req, res) => {
+    try {
+        const email = req.session.user.email;
+        if (!email) {
+            return res.status(400).json({ok:false, error: 'Email is required' });
+        }
+
+        const db = await sqlite3.getDatabase();
+        const products = await db.all('SELECT * FROM products WHERE owner = ?', [email]);
+        res.status(200).json({ok:true, products });
+    } catch (err) {
+        console.error('Error fetching products:', err);
+        res.status(500).json({ok:false, error: 'Internal Server Error' });
+    }
+});
+
 router.post('/create', [upload.fields([
     { name: 'image', maxCount: 1 },
     { name: 'file', maxCount: 1 }
 ])], async (req, res) => {
     try {
-        const { name, price, description } = req.body;
+        const { name, price, description, subject } = req.body;
+        const email = req.session.user.email;
+        if (!email) {
+            return res.status(400).json({ok:false, error: 'Email is required' });
+        }
+
         const files = req.files;
 
         if (!files || !files.image || !files.file) {
             return res.status(400).json({ok:false, error: 'Image and file are required' });
         }
 
-        if (!name || !price || !description) {
+        if (!name || !price || !description || !subject) {
             return res.status(400).json({ok:false, error: 'All fields are required' });
         }
 
         const db = await sqlite3.getDatabase();
         const token = uuidv4();
 
-        db.run(`INSERT INTO products (name, price, description, image, file, token) VALUES (?, ?, ?, ?, ?, ?)`,
-            [name, price, description, files.image[0].fileUrl, files.file[0].fileUrl, token],
+        db.run(`INSERT INTO products (name, price, description, subject, image, file, token, owner) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [name, price, description, subject, files.image[0].fileUrl, files.file[0].fileUrl, token, email],
             function (err) {
                 if (err) {
                     throw new Error(err);
@@ -70,7 +91,7 @@ router.post('/create', [upload.fields([
                 res.status(201).json({
                     ok: true,
                     message: 'Product created successfully', product: {
-                        name, price, description, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
+                        name, price, description, subject, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token, owner: email
                     }
                 });
             }
@@ -87,16 +108,16 @@ router.put('/update/:token', [upload.fields([
 ])], async (req, res) => {
     try {
         const { token } = req.params;
-        const { name, price, description } = req.body;
+        const { name, price, description, subject } = req.body;
         const files = req.files;
 
-        if (!name || !price || !description) {
+        if (!name || !price || !description || !subject) {
             return res.status(400).json({ok:false, error: 'All fields are required' });
         }
 
         const db = await sqlite3.getDatabase();
-        db.run(`UPDATE products SET name = ?, price = ?, description = ? WHERE token = ?`,
-            [name, price, description, token],
+        db.run(`UPDATE products SET name = ?, price = ?, description = ?, subject = ? WHERE token = ?`,
+            [name, price, description, subject, token],
             function (err, rows) {
                 if (rows.length === 0) {
                     return res.status(404).json({ok:false, error: 'Product not found' });
@@ -119,7 +140,7 @@ router.put('/update/:token', [upload.fields([
                 res.status(200).json({
                     ok: true,
                     message: 'Product updated successfully', product: {
-                        id, name, price, description, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
+                        id, name, price, description, subject, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
                     }
                 });
             }
