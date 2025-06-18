@@ -3,7 +3,6 @@ const router = express.Router();
 
 const QRCode = require('qrcode');
 const generatePayload = require('promptpay-qr');
-const _ = require('lodash');
 
 const { getDatabase } = require('../../functions/sqlite3');
 const { upload } = require('../../functions/storage');
