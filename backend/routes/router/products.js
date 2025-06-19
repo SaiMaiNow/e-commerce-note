@@ -103,10 +103,6 @@ router.put('/update/:token', [upload.fields([
         db.run(`UPDATE products SET name = ?, price = ?, description = ?, subject = ? WHERE token = ?`,
             [name, price, description, subject, token],
             function (err, rows) {
-                if (rows.length === 0) {
-                    return res.status(404).json({ok:false, error: 'Product not found' });
-                }
-
                 if (err) {
                     throw new Error(err);
                 }
