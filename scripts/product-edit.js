@@ -28,11 +28,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // ดึงข้อมูลสินค้าของเรา
-  const res = await fetch("http://localhost:4000/api/products/get-for-edit", {
+  const res = await fetch("http://localhost:4000/api/profile", {
     credentials: "include"
   });
   const data = await res.json();
-  const product = data.products.find(p => p.token === token);
+  const product = data.myproduct.find(p => p.token === token);
 
   if (!product) {
     alert("ไม่พบสินค้านี้");
