@@ -15,7 +15,13 @@ router.get('/get-payment', async (req, res) => {
         }
 
         const db = await getDatabase();
-        const product = await db.get(`SELECT price FROM products WHERE token = ?`, [token]);
+        const product = await new Promise((resolve, reject) => {
+            db.get(`SELECT price FROM products WHERE token = ?`, [token], (err, row) => {
+                if (err) reject(err);
+                resolve(row);
+            });
+        });
+
         if (!product) {
             return res.status(404).json({ ok: false, message: 'Product not found' });
         }
@@ -64,7 +70,14 @@ router.post('/check-payment', [upload.fields([
         }
 
         const db = await getDatabase();
-        const product = await db.get(`SELECT id, price FROM products WHERE token = ?`, [token]);
+        const product = await new Promise((resolve, reject) => {
+            db.get(`SELECT id, price FROM products WHERE token = ?`, [token], (err, row) => {
+                if (err) reject(err);
+
+                resolve(row)
+            });
+        });
+
         if (!product) {
             return res.status(404).json({ ok: false, message: 'Product not found' });
         }
