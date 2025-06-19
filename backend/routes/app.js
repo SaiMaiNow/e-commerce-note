@@ -11,4 +11,6 @@ router.use('/cart', require('./router/cart'));
 
 router.use('/payment', require('./router/payment'));
 
+router.use('/profile', require('./router/profile'));
+
 module.exports = router;
