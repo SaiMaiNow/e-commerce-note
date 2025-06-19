@@ -71,7 +71,7 @@ router.post('/check-payment', [upload.fields([
 
         const db = await getDatabase();
         const product = await new Promise((resolve, reject) => {
-            db.get(`SELECT id, price FROM products WHERE token = ?`, [token], (err, row) => {
+            db.get(`SELECT id, price, sales FROM products WHERE token = ?`, [token], (err, row) => {
                 if (err) reject(err);
 
                 resolve(row)
@@ -82,11 +82,20 @@ router.post('/check-payment', [upload.fields([
             return res.status(404).json({ ok: false, message: 'Product not found' });
         }
 
-        const owner = await db.get(`SELECT owner FROM users WHERE email = ?`, [email]);
-        const formate = JSON.parse(owner);
-        await formate.push(product.id);
+        await db.get(`SELECT owner FROM users WHERE email = ?`, [email], async (err, rows) => {
+            if (err) throw new Error(err);
 
-        await db.run(`UPDATE users SET owner = ? WHERE email = ?`, [JSON.stringify(formate), email]);
+            const formate = JSON.parse(owner);
+            await formate.push(product.token);
+
+            await db.run(`UPDATE users SET owner = ? WHERE email = ?`, [JSON.stringify(formate), email], (err) => {
+                if (err) throw new Error(err);
+            });
+
+            await db.run('UPDATE products SET sales = ? WHERE token = ?', [product.sales + 1, token], (err) => {
+                if (err) throw new Error(err);
+            });
+        });
 
         res.status(200).json({ ok: true, message: 'successfully' });
     } catch (err) {

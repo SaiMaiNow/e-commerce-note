@@ -28,6 +28,7 @@ function connectDatabase() {
             image TEXT NOT NULL,
             file TEXT NOT NULL,
             token TEXT NOT NULL,
+            sales INTEGER NOT NULL DEFAULT 0,
             owner INTEGER NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);

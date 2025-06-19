@@ -41,34 +41,6 @@ router.get('/get-all', async (req, res) => {
     }
 });
 
-router.get('/get-for-edit', async (req, res) => {
-    try {
-        const email = req.session.user.email;
-        if (!email) {
-            return res.status(400).json({ok:false, error: 'Email is required' });
-        }
-
-        const db = await sqlite3.getDatabase();
-        db.all('SELECT * FROM products WHERE owner = ?', [email], (err, rows) => {
-            if (err) {
-                throw new Error(err);
-            }
-
-            if (!rows || rows.length <= 0 ) {
-                return res.status(200).json({
-                    ok: true,
-                    products: []
-                })
-            }
-
-            res.status(200).json({ok:true, products: rows });
-        });
-    } catch (err) {
-        console.error('Error fetching products:', err);
-        res.status(500).json({ok:false, error: 'Internal Server Error' });
-    }
-});
-
 router.post('/create', [upload.fields([
     { name: 'image', maxCount: 1 },
     { name: 'file', maxCount: 1 }
