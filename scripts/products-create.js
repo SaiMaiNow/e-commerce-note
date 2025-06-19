@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     formData.append("name", title);
     formData.append("description", description);
     formData.append("price", price);
+    formData.append("subject", subject);
     formData.append("file", file); 
     formData.append("image", image); 
     
@@ -70,17 +71,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         Swal.fire({
           icon: "error",
           title: "Upload failed!",
-          text: result.message || "Something went wrong!"
+          text: result.message || "Something went wrong!",
+          showConfirmButton: true
         });
+        // alert(result.message || "Something went wrong!");
         return;
       }
-      Swal.fire({
-        icon: "success",
-        title: "Upload success!",
-        text: result.message,
-        showConfirmButton: false,
-        timer: 1000
-      })
+      // Swal.fire({
+      //   icon: "success",
+      //   title: "Upload success!",
+      //   text: result.message,
+      //   showConfirmButton: false,
+      //   timer: 60000000
+      // })
+      alert("Product uploaded successfully!");
 
     } catch (err) {
       console.error("Upload error:", err);
