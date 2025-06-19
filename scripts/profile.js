@@ -31,9 +31,11 @@ async function getMyProducts(){
   }
   console.log(response);
   return response.products; 
+
 }
 
-function showMyProducts(products) {
+async function showMyProducts() {
+  const products = await getMyProducts();
   const container = document.getElementById('myProductsContainer');
   container.innerHTML = ''; 
 
@@ -42,14 +44,14 @@ function showMyProducts(products) {
       document.getElementById('myProductsContainer').classList.add('d-none'); 
       return;
   }
-
+console.log(products);
   products.forEach(p => {
-      const imageUrl = p.image.startsWith('/uploads/') ? `http://localhost:4000${p.image}` : p.image;
+      // const imageUrl = p.image.startsWith('/uploads/') ? `http://localhost:4000${p.image}` : p.image;
 
       container.innerHTML += `
           <div class="col">
               <div class="card shadow-sm product-card-manage">
-                  <img src="${imageUrl}" class="card-img-top" alt="${p.name}">
+                  <img src="${p?.image}" class="card-img-top" alt="${p.name}">
                   <div class="card-body">
                       <span class="badge bg-primary mb-2">${p.subject}</span>
                       <h5 class="card-title">${p.name}</h5>
@@ -104,8 +106,7 @@ function showMyProducts(products) {
                               'Your product has been deleted.',
                               'success'
                           ).then(() => {
-
-                              getMyProducts(); 
+                            showMyProducts();
                           });
                       } else {
                           Swal.fire(
@@ -156,7 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       console.log("Frontend (profile.js): Authenticated user email:", user.email); 
       
-      document.getElementById('showMyProductsBtn').addEventListener('click', getMyProducts);
+      document.getElementById('showMyProductsBtn').addEventListener('click', showMyProducts);
 
   } catch (error) {
       console.error('Error in profile.js (DOMContentLoaded):', error);

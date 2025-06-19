@@ -56,13 +56,13 @@ function showProducts(products) {
   
   products.forEach(p => {
     // *** ปรับแก้ URL รูปภาพตรงนี้: เพิ่ม 'http://localhost:4000' ถ้า p.image เป็น Path สัมพัทธ์ ***
-    const imageUrl = p.image.startsWith('/uploads/') ? `http://localhost:4000${p.image}` : p.image;
+    // const imageUrl = p.image.startsWith('/uploads/') ? `http://localhost:4000${p.image}` : p.image;
 
     container.innerHTML += `
       <div class="col-md-4">  <div class="card mb-4 box-shadow position-relative product-hover">
           <a href="product-detail.html?token=${p.token}" class="text-decoration-none text-dark">
               <div class="product-image">
-                <img class="card-img-top" src="${imageUrl}" alt="${p.name}">
+                <img class="card-img-top" src="${p?.image}" alt="${p.name}">
                 <button class="badge-button btn btn-danger btn-sm position-absolute top-0 start-0 m-2">${p.subject}</button>
               </div>
         
