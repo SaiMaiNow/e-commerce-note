@@ -15,7 +15,7 @@ router.get('/get-all', async (req, res) => {
                 throw new Error(err);
             }
 
-            if (!rows || rows.length === 0) {
+            if (!rows || rows.length <= 0) {
                 return res.status(200).json({
                     ok: true,
                     products: [],
@@ -49,8 +49,20 @@ router.get('/get-for-edit', async (req, res) => {
         }
 
         const db = await sqlite3.getDatabase();
-        const products = await db.all('SELECT * FROM products WHERE owner = ?', [email]);
-        res.status(200).json({ok:true, products });
+        db.all('SELECT * FROM products WHERE owner = ?', [email], (err, rows) => {
+            if (err) {
+                throw new Error(err);
+            }
+
+            if (!rows || rows.length <= 0 ) {
+                return res.status(200).json({
+                    ok: true,
+                    products: []
+                })
+            }
+
+            res.status(200).json({ok:true, products: rows });
+        });
     } catch (err) {
         console.error('Error fetching products:', err);
         res.status(500).json({ok:false, error: 'Internal Server Error' });
