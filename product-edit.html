@@ -1,50 +1,68 @@
-<!-- <!DOCTYPE html>
+
+ <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <!-- edit.html -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Sheet - NOTEKUB</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Product</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <link href="album.css" rel="stylesheet"> </head>
-
-<body class="bg-light">
+ <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
+  <link href="styles/album.css" rel="stylesheet">
+</head>
+<body>
   <header>
+    <!-- Mobile Menu: Collapsible -->
     <div class="collapse bg-dark navbarHeader d-lg-none" id="navbarHeader">
       <div class="container">
         <div class="row">
+          <!-- Left: Menu -->
           <div class="col-12 py-4">
             <h4 class="text-white mt-4">Menu</h4>
             <ul class="list-unstyled">
-              <li><a href="index.html" class="text-white text-decoration-none"><i class="bi bi-house me-2"></i>Home</a></li>
-              <li><a href="profile.html" class="text-white text-decoration-none profile-link d-none"><i class="bi bi-person me-2"></i>Profile</a></li>
-              <li><a href="products.html" class="text-white text-decoration-none products-link d-none"><i class="bi bi-cloud-arrow-up me-2"></i>Upload Sheet</a></li>
-              <li><a href="cart.html" class="text-white text-decoration-none"><i class="bi bi-cart me-2"></i>Cart</a></li>
-              <li><a href="#" class="text-white text-decoration-none logout-link d-none"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-              <li><a href="signin.html" class="text-white text-decoration-none signin-link"><i class="bi bi-box-arrow-in-right me-2"></i>Sign In</a></li>
-              <li><a href="register.html" class="text-white text-decoration-none register-link"><i class="bi bi-person-plus me-2"></i>Register</a></li>
+              <li><a href="index.html" class="text-white text-decoration-none"><i class="bi bi-house me-2"></i>Home</a>
+              </li>
+              <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-search me-2"></i>Search</a></li>
+              <li><a href="cart.html" class="text-white text-decoration-none"><i class="bi bi-cart me-2"></i>Cart</a>
+              </li>
+              <li><a href="profile.html" class="text-white text-decoration-none profile-link"><i
+                    class="bi bi-person-circle me-2"></i>Profile</a></li>
+              <li><a href="products.html" class="text-white text-decoration-none profile-link"><i
+                    class="bi bi-file-earmark-arrow-up-fill me-2"></i>Upload</a></li>
+              <li><a href="#" class="text-white text-decoration-none logout-link"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-    <div class="navbar navbar-dark bg-dark shadow-sm">
-      <div class="container">
+
+    <!-- Top Navbar -->
+    <div class="navbar navbar-dark bg-dark box-shadow">
+      <div class="container d-flex justify-content-between align-items-center">
         <a href="index.html" class="navbar-brand d-flex align-items-center">
-          <strong>NOTEKUB</strong>
+          <strong><i class="bi bi-journal-text me-2"></i>NOTEKUB</strong>
         </a>
-        <div class="d-none d-lg-block">
-          <ul class="nav">
-            <li class="nav-item"><a href="index.html" class="nav-link text-white">Home</a></li>
-            <li class="nav-item"><a href="profile.html" class="nav-link text-white profile-link d-none">Profile</a></li>
-            <li class="nav-item"><a href="products.html" class="nav-link text-white products-link d-none">Upload Sheet</a></li>
-            <li class="nav-item"><a href="cart.html" class="nav-link text-white">Cart</a></li>
-            <li class="nav-item"><a href="#" class="nav-link text-white logout-link d-none">Logout</a></li>
-            <li class="nav-item"><a href="signin.html" class="nav-link text-white signin-link">Sign In</a></li>
-            <li class="nav-item"><a href="register.html" class="nav-link text-white register-link">Register</a></li>
-          </ul>
+
+        <!-- Desktop Menu -->
+        <div class="d-none d-lg-flex align-items-center">
+          <input class="me-3" id="searchInput" placeholder="search">
+          <a href="index.html" class="nav-icon text-white me-3" title="Home"><i class="bi bi-house"></i></a>
+          <a href="#" class="nav-icon text-white me-3" title="Search"><i class="bi bi-search"></i></a>
+          <a href="cart.html" class="nav-icon text-white me-3" title="Cart"><i class="bi bi-cart"></i></a>
+
+          <div class="dropdown me-3" id="user-menu">
+            <a class="text-white" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+              <li><a class="dropdown-item profile-link" href="profile.html">Profile</a></li>
+              <li><a class="dropdown-item logout-link" href="#">Logout</a></li>
+            </ul>
+          </div>
         </div>
+
+        <!-- Mobile Toggle Button -->
         <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
           aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -52,112 +70,61 @@
       </div>
     </div>
   </header>
-
-  <main class="d-flex align-items-start justify-content-center pb-5 min-vh-100">
-    <div class="container mt-5" style="max-width: 600px">
-      <h2 class="mb-4">✏️ แก้ไขข้อมูลชีท</h2>
-      <div id="alert-box"></div>
-      <form id="edit-product-form" class="product-form bg-white shadow rounded p-4 d-none">
-        <input type="hidden" name="token" id="product-token">
-
-        <div class="mb-3">
-          <label for="name" class="form-label">ชื่อชีท</label>
-          <input type="text" class="form-control" name="name" id="product-name" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="description" class="form-label">คำอธิบาย</label>
-          <textarea class="form-control" name="description" id="product-description" rows="3" required></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label for="subject" class="form-label">หมวดวิชา</label>
-          <select class="form-select" name="subject" id="product-subject" required>
-            <option value="">-- เลือกวิชา --</option>
-            <option value="math">คณิตศาสตร์</option>
-            <option value="science">วิทยาศาสตร์</option>
-            <option value="social">สังคมศึกษา</option>
-            <option value="english">ภาษาอังกฤษ</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="price" class="form-label">ราคา (บาท)</label>
-          <input type="number" class="form-control" name="price" id="product-price" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="image" class="form-label">รูปภาพหน้าปก (Image) - เลือกใหม่ถ้าต้องการเปลี่ยน</label>
-          <input type="file" class="form-control" name="image" id="product-image" accept=".jpg,.jpeg,.png">
-          <img id="current-image-preview" src="" alt="Current Image" class="img-thumbnail mt-2" style="max-width: 200px; display: none;">
-        </div>
-
-        <div class="mb-3">
-          <label for="file" class="form-label">ไฟล์ชีท (PDF) - เลือกใหม่ถ้าต้องการเปลี่ยน</label>
-          <input type="file" class="form-control" name="file" id="product-file" accept=".pdf">
-          <a id="current-file-link" href="#" target="_blank" class="d-none mt-2">View Current PDF</a>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100">บันทึกการเปลี่ยนแปลง</button>
-      </form>
-    </div>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="scripts/index-auth.js"></script> <script src="scripts/product-edit.js"></script>
-</body>
-
-</html> -->
-<!-- edit.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Edit Product</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body class="p-4">
-  <div class="container">
-    <h2>✏️ แก้ไขสินค้า</h2>
+  
+  <div class="container mt-5" style="margin-bottom: 3rem;">
+  <div class="upload-container bg-white rounded-4 p-5 shadow mx-auto" style="max-width: 600px; font-family: 'Noto Sans Thai', sans-serif;">
+    <h2 class="mb-4 fw-bold text-dark">✏️ แก้ไขสินค้า</h2>
     <form id="editForm">
       <div class="mb-3">
-        <label class="form-label">ชื่อชีท</label>
+        <label for="title" class="form-label fw-medium">ชื่อชีท</label>
         <input type="text" class="form-control" name="title" required>
       </div>
       <div class="mb-3">
-        <label class="form-label">คำอธิบาย</label>
-        <textarea class="form-control" name="description" required></textarea>
+       <label for="description" class="form-label fw-mediuml">คำอธิบาย</label>
+        <textarea class="form-control" name="description" rows="3" required></textarea>
       </div>
       <div class="mb-3">
-        <label class="form-label">หมวดวิชา</label>
+         <label for="subject" class="form-label fw-medium">หมวดวิชา</label>
         <select class="form-select" name="subject" required>
+           <option value="">-- เลือกวิชา --</option>
           <option value="math">คณิตศาสตร์</option>
           <option value="science">วิทยาศาสตร์</option>
           <option value="social">สังคม</option>
           <option value="english">อังกฤษ</option>
         </select>
       </div>
+
       <div class="mb-3">
-        <label class="form-label">ราคา</label>
+       <label for="price" class="form-label fw-medium">ราคา</label>
         <input type="number" class="form-control" name="price" required>
       </div>
+
       <div class="mb-3">
-        <label class="form-label">เปลี่ยนภาพ</label>
+        <label for="image" class="form-label fw-medium">เปลี่ยนภาพ</label>
         <input type="file" class="form-control" name="image" accept=".jpg,.png,.jpeg">
         <div id="imageFilename" class="form-text text-muted mt-1"></div>
+          <small class="form-text text-muted" style="margin-top: 10px; display: block;">
+        คำแนะนำเพิ่มเติม: สำหรับขนาดภาพที่เหมาะสม ความกว้างควรมีอย่างน้อย 350 พิกเซล และความสูงอย่างน้อย 225 พิกเซล</small>
       </div>
+
       <div class="mb-3">
-        <label class="form-label">เปลี่ยนไฟล์ชีท</label>
+        <label class="form-label fw-medium">เปลี่ยนไฟล์ชีท</label>
         <input type="file" class="form-control" name="file" accept=".pdf">
         <div id="pdfFilename" class="form-text text-muted mt-1"></div>
       </div>
-      <button type="submit" class="btn btn-primary">บันทึกการแก้ไข</button>
+
+      <div class="d-grid">
+      <button type="submit" class="btn btn-primary px-4 py-2 fw-medium rounded-3">บันทึกการแก้ไข</button>
+      </div>
     </form>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="scripts/index-auth.js"></script>
   <script src="scripts/product-edit.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
