@@ -15,7 +15,7 @@ async function getMyProducts(){
   return response.myproduct; 
 }
 
-window.showMyProducts = async function() {
+const showMyProducts = async function() {
   const products = await getMyProducts();
   const container = document.getElementById('myProductsContainer');
   container.innerHTML = ''; 
