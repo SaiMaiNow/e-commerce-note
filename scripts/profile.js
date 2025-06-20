@@ -1,171 +1,3 @@
-// scripts/profile.js
-
-// ฟังก์ชัน ajax ที่คุณมีอยู่แล้ว
-// const ajax = async (config) => {
-//   const request = await fetch(config.url, {
-//       method: config.method,
-//       credentials: "include",
-//       headers: {
-//           Accept: "application/json",
-//           "Content-Type": "application/json",
-//       },
-//       body: config.data ? JSON.stringify(config.data) : undefined,
-//   });
-//   const response = await request.json();
-//   return response;
-// };
-
-// async function getMyProducts(){
-//   console.log("Fetching my products...");
-//   let config = {
-//     url: 'http://localhost:4000/api/products/get-for-edit',
-//     method: 'GET'
-//   }
-//   let response = await ajax(config);
-
-//   console.log("API response:", response);
-  
-//   if (!response.ok) {
-//     console.error("Failed to fetch products:", response); 
-//     return []; 
-//   }
-//   console.log(response);
-//   return response.products; 
-
-// }
-
-// async function showMyProducts() {
-//   const products = await getMyProducts();
-//   const container = document.getElementById('myProductsContainer');
-//   container.innerHTML = ''; 
-
-//   if (!products || products.length === 0) {
-//       document.getElementById('no-products-message').classList.remove('d-none');
-//       document.getElementById('myProductsContainer').classList.add('d-none'); 
-//       return;
-//   }
-// console.log(products);
-//   products.forEach(p => {
-//       // const imageUrl = p.image.startsWith('/uploads/') ? `http://localhost:4000${p.image}` : p.image;
-
-//       container.innerHTML += `
-//           <div class="col">
-//               <div class="card shadow-sm product-card-manage">
-//                   <img src="${p?.image}" class="card-img-top" alt="${p.name}">
-//                   <div class="card-body">
-//                       <span class="badge bg-primary mb-2">${p.subject}</span>
-//                       <h5 class="card-title">${p.name}</h5>
-//                       <p class="card-text text-muted">${p.description.substring(0, 70)}${p.description.length > 70 ? '...' : ''}</p>
-//                       <p class="product-price text-danger fw-bold">฿${p.price}</p>
-//                       <div class="d-flex justify-content-between align-items-center">
-//                           <div class="btn-group">
-//                               <a href="product-edit.html?token=${p.token}" class="btn btn-sm btn-outline-primary">
-//                                   <i class="bi bi-pencil"></i> Edit
-//                               </a>
-//                               <button type="button" class="btn btn-sm btn-outline-danger delete-product-btn" data-token="${p.token}" data-name="${p.name}">
-//                                   <i class="bi bi-trash"></i> Delete
-//                               </button>
-//                           </div>
-//                       </div>
-//                   </div>
-//               </div>
-//           </div>
-//       `;
-//   });
-
-//   // แสดง container และซ่อนข้อความ "ไม่มีสินค้า"
-//   container.classList.remove('d-none');
-//   document.getElementById('no-products-message').classList.add('d-none');
-
-//   // แนบ Event Listener ให้กับปุ่ม Delete หลังจากที่ Element ถูกสร้างขึ้นมาแล้ว
-//   document.querySelectorAll('.delete-product-btn').forEach(button => {
-//       button.addEventListener('click', async (e) => {
-//           const tokenToDelete = e.currentTarget.dataset.token;
-//           const productName = e.currentTarget.dataset.name;
-          
-//           Swal.fire({
-//               title: `Are you sure you want to delete "${productName}"?`,
-//               text: "You won't be able to revert this!",
-//               icon: 'warning',
-//               showCancelButton: true,
-//               confirmButtonColor: '#d33',
-//               cancelButtonColor: '#3085d6',
-//               confirmButtonText: 'Yes, delete it!'
-//           }).then(async (result) => {
-//               if (result.isConfirmed) {
-//                   try {
-//                       const deleteConfig = {
-//                           url: `http://localhost:4000/api/products/delete/${tokenToDelete}`,
-//                           method: 'DELETE'
-//                       };
-//                       const deleteResponse = await ajax(deleteConfig);
-
-//                       if (deleteResponse.ok) {
-//                           Swal.fire(
-//                               'Deleted!',
-//                               'Your product has been deleted.',
-//                               'success'
-//                           ).then(() => {
-//                             showMyProducts();
-//                           });
-//                       } else {
-//                           Swal.fire(
-//                               'Failed!',
-//                               deleteResponse.message || 'Failed to delete product.',
-//                               'error'
-//                           );
-//                       }
-//                   } catch (error) {
-//                       console.error('Error deleting product:', error);
-//                       Swal.fire(
-//                           'Error!',
-//                           'An error occurred while deleting the product.',
-//                           'error'
-//                       );
-//                   }
-//               }
-//           });
-//       });
-//   });
-// }
-
-
-// document.addEventListener('DOMContentLoaded', async () => {
-
-//   document.getElementById('loading-message').classList.add('d-none');
-//   document.getElementById('error-message').classList.add('d-none');
-//   document.getElementById('myProductsContainer').classList.add('d-none');
-//   document.getElementById('no-products-message').classList.add('d-none');
-
-//   try {
-//       // ตรวจสอบการ Login ก่อน
-//       const authResponse = await ajax({
-//           url: 'http://localhost:4000/api/signin/check',
-//           method: 'GET'
-//       });
-
-//       if (!authResponse.ok) {
-//           document.getElementById('error-message').classList.remove('d-none');
-//           document.getElementById('error-message').textContent = 'Please sign in to view your profile and products.';
-//           return;
-//       }
-
-//       // ถ้า Login แล้ว ดึงข้อมูลผู้ใช้มาแสดง
-//       const user = authResponse.user; 
-//       document.getElementById('user-username').textContent = user.username;
-//       document.getElementById('user-email').textContent = user.email;
-
-//       console.log("Frontend (profile.js): Authenticated user email:", user.email); 
-      
-//       document.getElementById('showMyProductsBtn').addEventListener('click', showMyProducts);
-
-//   } catch (error) {
-//       console.error('Error in profile.js (DOMContentLoaded):', error);
-//       document.getElementById('error-message').classList.remove('d-none');
-//       document.getElementById('error-message').textContent = 'An unexpected error occurred. Please try again later.';
-//   }
-// });
-
 async function getMyProducts(){
   console.log("Fetching my products...");
   let config = {
@@ -183,7 +15,7 @@ async function getMyProducts(){
   return response.myproduct; 
 }
 
-async function showMyProducts() {
+window.showMyProducts = async function() {
   const products = await getMyProducts();
   const container = document.getElementById('myProductsContainer');
   container.innerHTML = ''; 
@@ -307,5 +139,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error('Error in profile.js (DOMContentLoaded):', error);
       document.getElementById('error-message').classList.remove('d-none');
       document.getElementById('error-message').textContent = 'An unexpected error occurred. Please try again later.';
+      window.location.href = "signin.html"; 
+  }
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('updated') === 'true') {
+    await showMyProducts();
   }
 });
