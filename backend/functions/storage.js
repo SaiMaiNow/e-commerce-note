@@ -25,7 +25,8 @@ const storage = multer.diskStorage({
             await fsSync.mkdir(dir, { recursive: true });
         }
 
-        const fileUrl = `${req.protocol}://${req.get('host')}/media/${user}/${key}/${file.originalname}`;
+        const filename = file.originalname.replace(/[^a-zA-Z0-9.\-\s]/g, '_').replace(/\s+/g, '_');
+        const fileUrl = `${req.protocol}://${req.get('host')}/media/${user}/${key}/${filename}`;
         file.fileUrl = fileUrl;
         cb(null, dir);
     }
