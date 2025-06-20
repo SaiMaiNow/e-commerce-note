@@ -120,7 +120,7 @@ router.put('/update/:token', [upload.fields([
                 res.status(200).json({
                     ok: true,
                     message: 'Product updated successfully', product: {
-                        id, name, price, description, subject, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
+                        name, price, description, subject, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
                     }
                 });
             }
