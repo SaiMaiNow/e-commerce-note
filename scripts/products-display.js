@@ -55,9 +55,6 @@ function showProducts(products) {
   }
   
   products.forEach(p => {
-    // *** ปรับแก้ URL รูปภาพตรงนี้: เพิ่ม 'http://localhost:4000' ถ้า p.image เป็น Path สัมพัทธ์ ***
-    // const imageUrl = p.image.startsWith('/uploads/') ? `http://localhost:4000${p.image}` : p.image;
-
     container.innerHTML += `
       <div class="col-md-4">  <div class="card mb-4 box-shadow position-relative product-hover">
           <a href="product-detail.html?token=${p.token}" class="text-decoration-none text-dark">
@@ -70,22 +67,9 @@ function showProducts(products) {
                 <h5 class="card-title">${p.name}</h5>
                 <p class="card-text">${p.description}</p>
                 <p class="product-price text-danger fw-bold">฿${p.price}</p>
-        
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-success" title="Buy">
-                      <i class="bi bi-currency-dollar"></i>
-                    </button>
-        
-                    <button type="button" class="btn btn-sm btn-outline-secondary add-to-cart" title="Add to cart">
-                      <i class="bi bi-cart"></i>
-                    </button>
-                  </div>
-                  <small class="text-muted">9 mins</small>
-                </div>
               </div>
           </a>
-          <button class="btn btn-primary btn-slide-up w-100 rounded-0 add-to-cart" data-product-token="${p.token}" title="Add to cart">
+          <button class="btn btn-primary btn-slide-up w-100 rounded-0 add-to-cart js-add-to-cart" data-product-token="${p.token}" title="Add to cart">
             Add to cart <i class="bi bi-cart"></i>
           </button>
         </div>
@@ -102,4 +86,40 @@ document.addEventListener('DOMContentLoaded', async () => {
         const filtered = filterProducts(e.target.value);
         showProducts(filtered);
       });
+
+  document.querySelector(".js-add-to-cart").addEventListener('click', async (e) => {
+    const productToken = e.target.getAttribute('data-product-token');
+    if (!productToken) {
+      console.error("No product token found");
+      return;
+    }
+
+    let config = {
+      url: 'http://localhost:4000/api/cart/add',
+      method: 'POST',
+      data: {
+        productToken: productToken,
+        quantity: 1
+      }
+    };
+
+    let response = await ajax(config);
+    
+    if (!response.ok) {
+      Swal.fire({
+        icon: "error",
+        title: "Add to cart failed!",
+        text: response.message || "Something went wrong!",
+      });
+      return;
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Added to cart!",
+      text: response.message,
+      showConfirmButton: false,
+      timer: 1000
+    });
+  });
 });
