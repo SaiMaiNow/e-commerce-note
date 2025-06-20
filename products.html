@@ -10,7 +10,6 @@
     <link href="styles/album.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
  <link href="styles/album.css" rel="stylesheet">
-  <link href="styles/products.css" rel="stylesheet">
 </head>
 
 <body>
@@ -29,10 +28,6 @@
               <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-search me-2"></i>Search</a></li>
               <li><a href="cart.html" class="text-white text-decoration-none"><i class="bi bi-cart me-2"></i>Cart</a>
               </li>
-              <li><a href="signin.html" class="text-white text-decoration-none signin-link"><i
-                    class="bi bi-person me-2"></i>Login</a></li>
-              <li><a href="register.html" class="text-white text-decoration-none register-link"><i
-                    class="bi bi-r-circle me-2"></i>Register</a></li>
               <li><a href="profile.html" class="text-white text-decoration-none profile-link"><i
                     class="bi bi-person-circle me-2"></i>Profile</a></li>
               <li><a href="products.html" class="text-white text-decoration-none profile-link"><i
@@ -63,10 +58,7 @@
               <i class="bi bi-person"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-              <li><a class="dropdown-item signin-link" href="signin.html">Login</a></li>
-              <li><a class="dropdown-item register-link" href="register.html">Register</a></li>
               <li><a class="dropdown-item profile-link" href="profile.html">Profile</a></li>
-              <li><a class="dropdown-item products-link" href="products.html">Upload</a></li>
               <li><a class="dropdown-item logout-link" href="#">Logout</a></li>
             </ul>
           </div>
@@ -82,22 +74,22 @@
   </header>
 
   <div class="container mt-5" style="margin-bottom: 3rem;">
-  <div class="upload-container mx-auto" style="max-width: 600px;">
-    <h2 class="mb-4">📤 อัปโหลดชีทสำหรับขาย</h2>
+  <div class="upload-container bg-white rounded-4 p-5 shadow mx-auto" style="max-width: 600px; font-family: 'Noto Sans Thai', sans-serif;">
+    <h2 class="mb-4 fw-bold text-dark">อัปโหลดชีทสำหรับขาย</h2>
     <div id="alert-box"></div>
     <form id="upload-form" class="product-form">
       <div class="mb-3">
-        <label for="title" class="form-label">ชื่อชีท</label>
+        <label for="title" class="form-label fw-medium">ชื่อชีท</label>
         <input type="text" class="form-control" name="title" required>
       </div>
 
       <div class="mb-3">
-        <label for="description" class="form-label">คำอธิบาย</label>
+        <label for="description" class="form-label fw-mediuml">คำอธิบาย</label>
         <textarea class="form-control" name="description" rows="3" required></textarea>
       </div>
 
       <div class="mb-3">
-        <label for="subject" class="form-label">หมวดวิชา</label>
+        <label for="subject" class="form-label fw-medium">หมวดวิชา</label>
         <select class="form-select" name="subject" required>
           <option value="">-- เลือกวิชา --</option>
           <option value="math">คณิตศาสตร์</option>
@@ -108,12 +100,12 @@
       </div>
 
       <div class="mb-3">
-        <label for="price" class="form-label">ราคา (บาท)</label>
+        <label for="price" class="form-label fw-medium">ราคา (บาท)</label>
         <input type="number" class="form-control" name="price" required>
       </div>
 
       <div class="mb-3">
-        <label for="image" class="form-label">รูปภาพหน้าปก (Image)</label>
+        <label for="image" class="form-label fw-medium">รูปภาพหน้าปก (Image)</label>
         <input type="file" class="form-control" name="image" accept=".jpg,.jpeg,.png" required>
       
         <small class="form-text text-muted" style="margin-top: 10px; display: block;">
@@ -121,13 +113,13 @@
       </div>
       
       <div class="mb-3">
-        <label for="file" class="form-label">ไฟล์ชีท (PDF)</label>
+        <label for="file" class="form-label fw-medium">ไฟล์ชีท (PDF)</label>
         <input type="file" class="form-control" name="file" accept=".pdf" required>
       </div>
 
       <br>
       <div class="d-grid">
-      <button type="submit" class="btn btn-primary">อัปโหลด</button>
+      <button type="submit" class="btn btn-primary px-4 py-2 fw-medium rounded-3">อัปโหลด</button>
       </div>
     </form>
   </div>
