@@ -22,12 +22,9 @@ router.get('/', async (req, res) => {
         const myorder = await new Promise((resolve, reject) => {
             db.all('SELECT owner FROM users WHERE email = ?', [user.email], (err, rows) => {
                 if (err) reject(err);
+                if (!rows || rows[0].owner) return resolve([]);
 
-                if (!rows || rows == "") {
-                    return resolve([]);
-                }
-
-                const owner = JSON.parse(rows);
+                const owner = JSON.parse(rows[0].owner);
 
                 if (!owner) {
                     return resolve([]);
