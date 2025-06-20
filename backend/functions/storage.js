@@ -3,7 +3,6 @@ const { v4: uuidv4 } = require('uuid');
 
 const path = require('path');
 const fsSync = require('fs/promises');
-const fs = require('fs');
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
 
