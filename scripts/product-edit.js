@@ -1,23 +1,3 @@
-// scripts/product-edit.js
-
-// ฟังก์ชัน ajax utility
-// const ajax = async (config) => {
-//   const request = await fetch(config.url, {
-//     method: config.method,
-//     credentials: "include",
-//     // สำหรับ FormData, Browser จะจัดการ Content-Type header ให้เอง
-//     // ดังนั้นไม่ต้องกำหนด "Content-Type": "application/json" ที่นี่
-//     headers: config.isFormData ? {} : {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//     },
-//     body: config.data ? (config.isFormData ? config.data : JSON.stringify(config.data)) : undefined,
-//   });
-//   const response = await request.json();
-//   return response;
-// };
-
-
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(location.search);
   const token = params.get("token");
@@ -80,8 +60,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         icon: "success",
         title: "แก้ไขสำเร็จ",
         text: result.message,
-        timer: 2000,
+        timer: 1000,
         showConfirmButton: false
+      }).then(() => {
+        
+        window.location.href = "profile.html?updated=true";
       });
     } else {
       Swal.fire("Error", result.error || "เกิดข้อผิดพลาด", "error");

@@ -1,16 +1,3 @@
-// const ajax = async (config) => {
-//   const request = await fetch(config.url, {
-//     method: config.method,
-//     credentials: "include",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(config.data),
-//   });
-//   const response = await request.json();
-//   return response;
-// };
 let allProducts = [];
 
 async function getAllProducts(){
@@ -85,41 +72,45 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('searchInput').addEventListener('input', e => {
         const filtered = filterProducts(e.target.value);
         showProducts(filtered);
-      });
+  });
 
-  document.querySelector(".js-add-to-cart").addEventListener('click', async (e) => {
-    const productToken = e.target.getAttribute('data-product-token');
-    if (!productToken) {
-      console.error("No product token found");
-      return;
-    }
-
-    let config = {
-      url: 'http://localhost:4000/api/cart/add',
-      method: 'POST',
-      data: {
-        productToken: productToken,
-        quantity: 1
+  document.querySelectorAll(".js-add-to-cart").forEach(button => {
+    button.addEventListener('click', async (e) => {
+      const productToken = e.currentTarget.getAttribute('data-product-token');
+      if (!productToken) {
+        console.error("No product token found");
+        return;
       }
-    };
-
-    let response = await ajax(config);
-    
-    if (!response.ok) {
+  
+      let config = {
+        url: 'http://localhost:4000/api/cart/add',
+        method: 'POST',
+        data: {
+          productToken: productToken,
+          quantity: 1
+        }
+      };
+  
+      let response = await ajax(config);
+      console.log("Add to cart request data:", config.data);
+  
+      if (!response.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Add to cart failed!",
+          text: response.message || "Something went wrong!",
+        });
+        return;
+      }
+  
       Swal.fire({
-        icon: "error",
-        title: "Add to cart failed!",
-        text: response.message || "Something went wrong!",
+        icon: "success",
+        title: "Added to cart!",
+        text: response.message,
+        showConfirmButton: false,
+        timer: 1000
       });
-      return;
-    }
-
-    Swal.fire({
-      icon: "success",
-      title: "Added to cart!",
-      text: response.message,
-      showConfirmButton: false,
-      timer: 1000
     });
   });
+  
 });
