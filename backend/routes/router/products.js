@@ -74,9 +74,7 @@ router.post('/create', [upload.fields([
 
                 res.status(201).json({
                     ok: true,
-                    message: 'Product created successfully', product: {
-                        name, price, description, subject, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token, owner: email
-                    }
+                    message: 'Product created successfully'
                 });
             }
         );
@@ -119,9 +117,7 @@ router.put('/update/:token', [upload.fields([
 
                 res.status(200).json({
                     ok: true,
-                    message: 'Product updated successfully', product: {
-                        name, price, description, subject, image: files.image[0].fileUrl, file: files.file[0].fileUrl, token
-                    }
+                    message: 'Product updated successfully'
                 });
             }
         );
