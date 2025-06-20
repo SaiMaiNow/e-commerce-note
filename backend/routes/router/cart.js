@@ -12,7 +12,7 @@ router.get('/get', async (req, res) => {
 
         const db = sqlite3.getDatabase();
         const cartToken = await new Promise((resolve, reject) => {
-            db.all('SELECT cart FROM email = ?', [user.email], (err, row) => {
+            db.all('SELECT cart FROM user WHERE email = ?', [user.email], (err, row) => {
                 if (err) reject(err);
                 resolve(row)
             });
