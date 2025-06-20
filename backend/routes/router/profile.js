@@ -30,14 +30,14 @@ router.get('/', async (req, res) => {
                     return resolve([]);
                 }
 
-                db.all('SELECT * FROM products', [], (err, rows) => {
+                db.all('SELECT * FROM products', [], async (err, rows) => {
                     if (err) reject(err)
 
                     if (!rows || rows.length <= 0) {
                         return resolve([]);
                     }
 
-                    const data = rows.filter(p => owner.includes(p.token));
+                    const data = await rows.filter(p => owner.includes(p.token));
 
                     resolve(data)
                 });
