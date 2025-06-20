@@ -13,15 +13,20 @@ router.get('/', async (req, res) => {
         const db = await sqlite3.getDatabase();
 
         const products = await new Promise((resolve, reject) => {
-            db.all('SELECT * FROM products WHERE owner = ?', [email], (err, rows) => {
+            db.all('SELECT * FROM products WHERE owner = ?', [user.email], (err, rows) => {
                 if (err) reject(err);
                 resolve(rows);
             });
         });
 
         const myorder = await new Promise((resolve, reject) => {
-            db.all('SELECT owner FROM users WHERE email = ?', [email], (err, rows) => {
+            db.all('SELECT owner FROM users WHERE email = ?', [user.email], (err, rows) => {
                 if (err) reject(err);
+
+                if (!rows || rows == "") {
+                    return resolve([]);
+                }
+
                 const owner = JSON.parse(rows);
 
                 if (!owner) {
