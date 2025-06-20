@@ -8,6 +8,9 @@ const fs = require('fs');
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
 
 const storage = multer.diskStorage({
+    filename: function (req, file, cd) {
+        cd(null, file.originalname.replace(/[^a-zA-Z0-9.\-\s]/g, '_').replace(/\s+/g, '_'));
+    },
     destination: async function (req, file, cb) {
         const user = req.session.user.username || req.session.user.email;
         const key = uuidv4();
@@ -26,9 +29,6 @@ const storage = multer.diskStorage({
         const fileUrl = `${req.protocol}://${req.get('host')}/media/${user}/${key}/${file.originalname}`;
         file.fileUrl = fileUrl;
         cb(null, dir);
-    },
-    filename: function (req, file, cd) {
-        cd(null, file.originalname.replace(/[^a-zA-Z0-9.\-\s]/g, '_').replace(/\s+/g, '_'));
     }
 });
 
