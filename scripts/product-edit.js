@@ -1,9 +1,24 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  const secretKey = "mySecret123";
   const params = new URLSearchParams(location.search);
-  const token = params.get("token");
+  const encrypted = params.get("code");
+
+  if (!encrypted) {
+    alert("ไม่พบข้อมูลสินค้า");
+    return;
+  }
+
+  let token;
+  try {
+    const bytes = CryptoJS.AES.decrypt(decodeURIComponent(encrypted), secretKey);
+    token = bytes.toString(CryptoJS.enc.Utf8);
+  } catch (err) {
+    alert("Token ถอดรหัสไม่ได้");
+    return;
+  }
 
   if (!token) {
-    alert("ไม่พบ token ของสินค้า");
+    alert("Token ไม่ถูกต้อง");
     return;
   }
 
@@ -34,6 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    console.log("🔁 FORM SUBMIT");
 
     const formData = new FormData();
     formData.append("name", form.title.value.trim());
@@ -42,32 +58,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     formData.append("subject", form.subject.value);
 
     if (form.image.files[0]) {
+      console.log("📸 มีการอัปโหลดรูปใหม่");
       formData.append("image", form.image.files[0]);
     }
     if (form.file.files[0]) {
+      console.log("📄 มีการอัปโหลดไฟล์ PDF ใหม่");
       formData.append("file", form.file.files[0]);
     }
 
-    const res = await fetch(`http://localhost:4000/api/products/update/${token}`, {
-      method: "PUT",
-      body: formData,
-      credentials: "include"
-    });
+    try {
+      const res = await fetch(`http://localhost:4000/api/products/update/${token}`, {
+        method: "PUT",
+        body: formData,
+        credentials: "include"
+      });
 
-    const result = await res.json();
-    if (result.ok) {
-      Swal.fire({
+  
+      const result = await res.json();
+      
+      console.log("✅ RESULT FROM BACKEND:", result);
+      if (!result.ok) {
+        await Swal.fire("Error", result.error || "เกิดข้อผิดพลาด", "error");
+        return;
+      } 
+      console.log("✅ UPDATE SUCCESS:", result);
+      await Swal.fire({
         icon: "success",
         title: "แก้ไขสำเร็จ",
         text: result.message,
-        timer: 1000,
+        timer: 2000,
         showConfirmButton: false
-      }).then(() => {
-        
+      }) .then(() => {
         window.location.href = "profile.html?updated=true";
       });
-    } else {
-      Swal.fire("Error", result.error || "เกิดข้อผิดพลาด", "error");
-    }
+    
+    } catch (err) {
+      console.error("Error while updating:", err);
+      await Swal.fire("Error", "ไม่สามารถติดต่อเซิร์ฟเวอร์ได้", "error");
+    } 
   });
 });
