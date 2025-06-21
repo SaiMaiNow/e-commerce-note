@@ -7,39 +7,37 @@ router.get('/get', async (req, res) => {
     try {
         const user = req.session.user;
         if (!user) {
-            return res.status(404).json({ok:false, message:"User not authenticated"});
+            return res.status(404).json({ ok: false, message: "User not authenticated" });
         }
 
         const db = sqlite3.getDatabase();
         const cartToken = await new Promise((resolve, reject) => {
-            db.all('SELECT cart FROM users WHERE email = ?', [user.email], (err, row) => {
+            db.get('SELECT cart FROM users WHERE email = ?', [user.email], (err, row) => {
                 if (err) reject(err);
                 resolve(row)
             });
         });
 
-        if (!cartToken) {
-            return res.status(200).json({ok:true, cart: []});
+        if (!cartToken || !cartToken?.cart) {
+            return res.status(200).json({ ok: true, cart: [] });
         }
 
-        const cartArray = JSON.parse(cartToken);
+        const cartArray = JSON.parse(cartToken.cart);
 
         if (!cartArray || cartArray.length <= 0) {
-            return res.status(200).json({ok:true, cart: []});
+            return res.status(200).json({ ok: true, cart: [] });
         }
 
         const mycart = await new Promise((resolve, reject) => {
-            db.all('SELECT * FROM products', [], async (err, rows) => {
+            db.all('SELECT name, price, description, subject, image, token, sales, owner FROM products', [], async (err, rows) => {
                 if (err) reject(err);
-
                 if (!rows || rows.length <= 0) resolve([]);
-                
-                const data = await rows.filter(p => cartArray.includes(p.token));
+                const data = rows.filter(p => cartArray.some(c => c.token == p.token));
                 resolve(data)
             });
         });
 
-        res.status(200).json({ok:true, cart: mycart});
+        res.status(200).json({ ok: true, cart: mycart });
     } catch (err) {
         console.error('Add to cart / :', err);
         res.status(500).json({ ok: false, message: 'Internal server error' });
@@ -61,26 +59,30 @@ router.post('/add', async (req, res) => {
         const db = await sqlite3.getDatabase();
 
         const product = await new Promise((resolve, reject) => {
-            db.get(`SELECT * FROM products WHERE token = ?`, [productToken], (err, row) => {
+            db.get(`SELECT id FROM products WHERE token = ?`, [productToken], (err, row) => {
                 if (err) return reject(err);
                 resolve(row);
             });
         });
 
-        if (!product) {
+        if (!product || product.length <= 0) {
             return res.status(404).json({ ok: false, message: 'Product not found' });
         }
 
         await new Promise((resolve, reject) => {
             db.get(`SELECT cart FROM users WHERE username = ?`, [username], (err, result) => {
                 if (err) return reject(err);
+                if (!result) return reject(new Error('User not found'));
+                console.log(result);
+
                 let cart = result.cart ? JSON.parse(result.cart) : [];
 
+                const qty = Number(quantity) || 1;
                 const cartIndex = cart.findIndex(item => item.token === productToken);
                 if (cartIndex > -1) {
-                    cart[cartIndex].quantity += quantity;
+                    cart[cartIndex].quantity += qty;
                 } else {
-                    cart.push({ token: productToken, quantity });
+                    cart.push({ token: productToken, quantity: qty });
                 }
 
                 db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(cart), username], (err) => {
