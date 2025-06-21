@@ -51,8 +51,8 @@ router.post('/add', async (req, res) => {
             return res.status(400).json({ ok: false, message: 'Product or Quantity ID are required' });
         }
 
-        const username = req.session.user.username;
-        if (!username) {
+        const user = req.session.user;
+        if (!user || user.username) {
             return res.status(401).json({ ok: false, message: 'User not authenticated' });
         }
 
@@ -70,7 +70,7 @@ router.post('/add', async (req, res) => {
         }
 
         await new Promise((resolve, reject) => {
-            db.get(`SELECT cart FROM users WHERE username = ?`, [username], (err, result) => {
+            db.get(`SELECT cart FROM users WHERE username = ?`, [user.username], (err, result) => {
                 if (err) return reject(err);
                 if (!result) return reject(new Error('User not found'));
                 console.log(result);
@@ -84,6 +84,8 @@ router.post('/add', async (req, res) => {
                 } else {
                     cart.push({ token: productToken, quantity: qty });
                 }
+
+                user.cart = cart;
 
                 db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(cart), username], (err) => {
                     if (err) return reject(err);
@@ -101,23 +103,26 @@ router.post('/add', async (req, res) => {
 
 router.put('/update', async (req, res) => {
     try {
+        // ถึง Frontend : CART ต้องเป็น Data Format นี้เท่านั้น [{token: "xxxxxxxxx", quantity: x}]
         const { cart } = req.body;
-        if (!username || !cart || !Array.isArray(cart)) {
+        if (!cart || !Array.isArray(cart)) {
             return res.status(400).json({ ok: false, message: 'Username and cart are required' });
         }
-        const username = req.session.user.username;
-        if (!username) {
+        const user = req.session.user;
+        if (!user || !user.username) {
             return res.status(401).json({ ok: false, message: 'User not authenticated' });
         }
 
         const db = await sqlite3.getDatabase();
 
         await new Promise((resolve, reject) => {
-            db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(cart), username], (err) => {
+            db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(cart), user.username], (err) => {
                 if (err) return reject(err);
                 resolve();
             });
         });
+
+        user.cart = cart;
 
         res.status(200).json({ ok: true, message: 'Cart updated successfully' });
     } catch (err) {

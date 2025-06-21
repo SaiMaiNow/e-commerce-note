@@ -9,9 +9,9 @@ const { upload } = require('../../functions/storage');
 
 router.get('/get-payment', async (req, res) => {
     try {
-        const { token } = req.query;
-        if (!token) {
-            return res.status(400).json({ ok: false, message: 'Token is required' });
+        const user = req.session.user;
+        if (!user) {
+            return res.status(404).json({ ok: false, message: "User not authenticated" });
         }
 
         const db = await getDatabase();
