@@ -10,29 +10,19 @@ router.get('/get', async (req, res) => {
             return res.status(404).json({ ok: false, message: "User not authenticated" });
         }
 
+        const cart = user.cart;
         const db = sqlite3.getDatabase();
-        const cartToken = await new Promise((resolve, reject) => {
-            db.get('SELECT cart FROM users WHERE email = ?', [user.email], (err, row) => {
-                if (err) reject(err);
-                resolve(row)
-            });
-        });
-
-        if (!cartToken || !cartToken?.cart) {
-            return res.status(200).json({ ok: true, cart: [] });
-        }
-
-        const cartArray = JSON.parse(cartToken.cart);
-
-        if (!cartArray || cartArray.length <= 0) {
-            return res.status(200).json({ ok: true, cart: [] });
-        }
-
         const mycart = await new Promise((resolve, reject) => {
             db.all('SELECT name, price, description, subject, image, token, sales, owner FROM products', [], async (err, rows) => {
                 if (err) reject(err);
                 if (!rows || rows.length <= 0) resolve([]);
-                const data = rows.filter(p => cartArray.some(c => c.token == p.token));
+                const data = rows
+                    .filter(p => cart.some(c => c.token == p.token))
+                    .map(p => {
+                        const cartItem = cart.find(c => c.token == p.token);
+                        return { ...p, quantity: cartItem.quantity };
+                    });
+                    
                 resolve(data)
             });
         });
@@ -73,7 +63,6 @@ router.post('/add', async (req, res) => {
             db.get(`SELECT cart FROM users WHERE username = ?`, [user.username], (err, result) => {
                 if (err) return reject(err);
                 if (!result) return reject(new Error('User not found'));
-                console.log(result);
 
                 let cart = result.cart ? JSON.parse(result.cart) : [];
 

@@ -7,7 +7,7 @@ const generatePayload = require('promptpay-qr');
 const { getDatabase } = require('../../functions/sqlite3');
 const { upload } = require('../../functions/storage');
 
-router.get('/get-payment', async (req, res) => {
+router.get('/get', async (req, res) => {
     try {
         const user = req.session.user;
         if (!user) {
@@ -15,18 +15,26 @@ router.get('/get-payment', async (req, res) => {
         }
 
         const db = await getDatabase();
-        const product = await new Promise((resolve, reject) => {
-            db.get(`SELECT price FROM products WHERE token = ?`, [token], (err, row) => {
+        const cart = user.cart;
+
+        const mycart = await new Promise((resolve, reject) => {
+            db.all('SELECT price, token FROM products', [], (err, rows) => {
                 if (err) reject(err);
-                resolve(row);
+                if (!rows || rows.length <= 0) reject(new Error("Product not found"));
+
+                const data = rows
+                    .filter(p => cart.some(c => c.token == p.token))
+                    .map(p => {
+                        const cartItem = cart.find(c => c.token == p.token);
+                        return { ...p, quantity: cartItem.quantity };
+                    });
+                resolve(data);
             });
         });
 
-        if (!product) {
-            return res.status(404).json({ ok: false, message: 'Product not found' });
-        }
+        const sumprice = mycart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-        const amount = parseFloat(product.price);
+        const amount = parseFloat(sumprice);
         const mobilenumber = "0616736843";
         const payload = generatePayload(mobilenumber, { amount });
         const option = {
@@ -50,7 +58,7 @@ router.get('/get-payment', async (req, res) => {
     }
 });
 
-router.post('/check-payment', [upload.fields([
+router.post('/order', [upload.fields([
     { name: 'slip', maxCount: 1 }
 ])], async (req, res) => {
     try {
