@@ -94,7 +94,7 @@ router.post('/order', [upload.fields([
                         });
                     }
                     await new Promise((res, rej) => {
-                        db.run(`UPDATE users SET owner = ?, cart = [] WHERE email = ?`, [JSON.stringify(formate), user.email], (err) => {
+                        db.run(`UPDATE users SET owner = ?, cart = ? WHERE email = ?`, [JSON.stringify(formate), [], user.email], (err) => {
                             if (err) return rej(err);
                             res();
                         });
