@@ -78,18 +78,20 @@ router.post('/order', [upload.fields([
             await db.get(`SELECT owner FROM users WHERE email = ?`, [user.email], async (err, rows) => {
                 if (err) reject(err);
 
+                const owner = rows.owner;
                 const formate = owner ? JSON.parse(owner) : [];
                 cart.map(async c => {
                     await formate.push({
-                        token: c.token
+                        token: c.token,
+                        quantity: c.quantity
                     });
 
-                    await db.run('UPDATE products SET sales = ? WHERE token = ?', [product.sales + 1, c.token], (err) => {
+                    await db.run('UPDATE products SET sales = ? WHERE token = ?', [product.sales + c.quantity, c.token], (err) => {
                         if (err) throw new Error(err);
                     });
                 });
 
-                await db.run(`UPDATE users SET owner = ? WHERE email = ?`, [JSON.stringify(formate), user.email], (err) => {
+                await db.run(`UPDATE users SET owner = ?, cart = [] WHERE email = ?`, [JSON.stringify(formate), user.email], (err) => {
                     if (err) throw new Error(err);
                 });
             });
@@ -97,6 +99,7 @@ router.post('/order', [upload.fields([
             resolve();
         });
 
+        user.cart = [];
         res.status(200).json({ ok: true, message: 'successfully' });
     } catch (err) {
         console.error('Check payment / :', err);
