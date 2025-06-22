@@ -62,9 +62,9 @@ router.post('/order', [upload.fields([
     { name: 'slip', maxCount: 1 }
 ])], async (req, res) => {
     try {
-        const { token } = req.body;
-        if (!token) {
-            return res.status(400).json({ ok: false, message: 'Token is required' });
+        const user = req.session.user;
+        if (!user) {
+            return res.status(400).json({ ok: false, message: 'User not authenticated' });
         }
 
         const { slip } = req.files;
@@ -72,37 +72,29 @@ router.post('/order', [upload.fields([
             return res.status(400).json({ ok: false, message: 'Slip is required' });
         }
 
-        const email = req.session.user.email;
-        if (!email) {
-            return res.status(400).json({ ok: false, message: 'Email is required' });
-        }
-
+        const cart = user.cart;
         const db = await getDatabase();
-        const product = await new Promise((resolve, reject) => {
-            db.get(`SELECT id, price, sales FROM products WHERE token = ?`, [token], (err, row) => {
+        await new Promise(async (resolve, reject) => {
+            await db.get(`SELECT owner FROM users WHERE email = ?`, [user.email], async (err, rows) => {
                 if (err) reject(err);
 
-                resolve(row)
-            });
-        });
+                const formate = owner ? JSON.parse(owner) : [];
+                cart.map(async c => {
+                    await formate.push({
+                        token: c.token
+                    });
 
-        if (!product) {
-            return res.status(404).json({ ok: false, message: 'Product not found' });
-        }
+                    await db.run('UPDATE products SET sales = ? WHERE token = ?', [product.sales + 1, c.token], (err) => {
+                        if (err) throw new Error(err);
+                    });
+                });
 
-        await db.get(`SELECT owner FROM users WHERE email = ?`, [email], async (err, rows) => {
-            if (err) throw new Error(err);
-
-            const formate = JSON.parse(owner);
-            await formate.push(product.token);
-
-            await db.run(`UPDATE users SET owner = ? WHERE email = ?`, [JSON.stringify(formate), email], (err) => {
-                if (err) throw new Error(err);
+                await db.run(`UPDATE users SET owner = ? WHERE email = ?`, [JSON.stringify(formate), user.email], (err) => {
+                    if (err) throw new Error(err);
+                });
             });
 
-            await db.run('UPDATE products SET sales = ? WHERE token = ?', [product.sales + 1, token], (err) => {
-                if (err) throw new Error(err);
-            });
+            resolve();
         });
 
         res.status(200).json({ ok: true, message: 'successfully' });
