@@ -64,10 +64,12 @@ async function check(){
 
   if (!response.ok) {
     guestMenu();
+    updateCartCount();
     return;
   } 
     
   memberMenu(response.user);
+  updateCartCount();
 }
 
 function memberMenu(user) {
@@ -95,6 +97,27 @@ function guestMenu() {
   const userMenu = document.getElementById('userMenu');
   if (userMenu) {
     userMenu.title = '';
+  }
+}
+
+async function updateCartCount() {
+  const cartCountSpan = document.getElementById("cart-count");
+  if (!cartCountSpan) return;
+
+  try {
+    const res = await fetch("http://localhost:4000/api/cart/get", {
+      credentials: "include",
+    });
+    const data = await res.json();
+
+    if (data.ok && Array.isArray(data.cart)) {
+      const totalItems = data.cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCountSpan.textContent = totalItems > 0 ? totalItems : '';
+    } else {
+      cartCountSpan.textContent = '';
+    }
+  } catch (err) {
+    console.error("ไม่สามารถโหลดจำนวนตะกร้า:", err);
   }
 }
 

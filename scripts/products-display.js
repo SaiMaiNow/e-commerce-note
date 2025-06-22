@@ -4,7 +4,8 @@ async function getAllProducts(){
   console.log("Fetching all products...");
   let config = {
     url: 'http://localhost:4000/api/products/get-all',
-    method: 'GET'
+    method: 'GET',
+    credentials: "include",
   }
   let response = await ajax(config);
 
@@ -62,17 +63,6 @@ function showProducts(products) {
         </div>
       </div> `;
   });
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-  allProducts = await getAllProducts();
-
-  showProducts(allProducts);
-
-  document.getElementById('searchInput').addEventListener('input', e => {
-        const filtered = filterProducts(e.target.value);
-        showProducts(filtered);
-  });
 
   document.querySelectorAll(".js-add-to-cart").forEach(button => {
     button.addEventListener('click', async (e) => {
@@ -85,6 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       let config = {
         url: 'http://localhost:4000/api/cart/add',
         method: 'POST',
+        credentials: "include",
         data: {
           productToken: productToken,
           quantity: 1
@@ -110,7 +101,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         showConfirmButton: false,
         timer: 1000
       });
+      updateCartCount();
     });
   });
-  
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  allProducts = await getAllProducts();
+
+  showProducts(allProducts);
+
+  document.getElementById('searchInput').addEventListener('input', e => {
+        const filtered = filterProducts(e.target.value);
+        showProducts(filtered);
+  });
+
 });

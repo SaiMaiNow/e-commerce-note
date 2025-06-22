@@ -74,7 +74,10 @@
         <div class="d-none d-lg-flex align-items-center">
           <a href="index.html" class="nav-icon text-white me-3" title="Home"><i class="bi bi-house"></i></a>
           <a href="#" class="nav-icon text-white me-3" title="Search"><i class="bi bi-search"></i></a>
-          <a href="cart.html" class="nav-icon text-white me-3" title="Cart"><i class="bi bi-cart"></i></a>
+          <a href="cart.html" class="nav-icon text-white me-3" title="Cart"><i class="bi bi-cart"></i>
+            <span id="cart-count"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            </span></a>
 
           <div class="dropdown me-3" id="user-menu">
             <a class="text-white" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -100,44 +103,66 @@
 
   <div class="container py-5">
     <h2 class="mb-4">🛒 Your Cart</h2>
-    <div id="cart-content">
-      <table class="table align-middle">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Price</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="cart-items"></tbody>
-      </table>
-      <div class="d-flex justify-content-between">
-        <strong>Total:</strong>
-        <strong id="cart-total">$0.00</strong>
-      </div>
-      <div class="mt-4 text-end">
-        <button class="btn btn-primary">Checkout</button>
-      </div>
-    </div>
+    <div class="row">
+      <!-- Left: Cart Items -->
+      <div class="col-lg-8">
+        <div id="cartContainer">
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th class="fs-6">Item</th>
+                <th class="fs-6 text-center">Quantity</th>
+                <th class="fs-6 text-end">Price</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cart-items"></tbody>
+          </table>
+          <div class="text-end">
+            <button id="update-cart-btn" class="btn btn-success">Update Cart</button>
+          </div>
+        </div>
 
-    <div id="empty-cart" class="empty-cart d-none">
-      <h4>🧺 Your cart is empty</h4>
-      <p>Start adding your favorite summary sheets!</p>
-      <a href="index.html" class="btn btn-outline-primary mt-3">Browse Sheets</a>
+        <div id="empty-cart" class="empty-cart d-none">
+          <h4>🧺 Your cart is empty</h4>
+          <p>Start adding your favorite summary sheets!</p>
+          <a href="index.html" class="btn btn-outline-primary mt-3">Browse Sheets</a>
+        </div>
+      </div>
+
+      <!-- Right: Order Summary -->
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3 fw-bold">Order Summary</h5>
+            <div class="d-flex justify-content-between">
+              <span id="order-items-count">Items</span>
+              <span id="summary-subtotal">฿0.00</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between fw-bold">
+              <span>Order total:</span>
+              <span id="summary-total">฿0.00</span>
+            </div>
+            <div class="mt-4">
+              <button class="btn btn-primary w-100">Place your order</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
- 
-  
+
+
+
   <!-- <div class="mt-3 text-center">
     <button class="btn btn-warning" onclick="simulateAddToCart()">
         Simulate Add Product (TEST ONLY)
     </button>
     <small class="text-muted d-block mt-1">กดเพื่อเพิ่มสินค้าทดสอบลงในตะกร้า</small>
-</div>
+</div>-->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="scripts/cart.js"></script> -->
-
   <script src="scripts/cart.js"></script>
 
 
