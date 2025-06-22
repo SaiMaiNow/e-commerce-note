@@ -74,29 +74,37 @@ router.post('/order', [upload.fields([
 
         const cart = user.cart;
         const db = await getDatabase();
-        await new Promise(async (resolve, reject) => {
-            await db.get(`SELECT owner FROM users WHERE email = ?`, [user.email], async (err, rows) => {
-                if (err) reject(err);
+        await new Promise((resolve, reject) => {
+            db.get(`SELECT owner FROM users WHERE email = ?`, [user.email], async (err, rows) => {
+                if (err) return reject(err);
 
                 const owner = rows.owner;
                 const formate = owner ? JSON.parse(owner) : [];
-                cart.map(async c => {
-                    await formate.push({
-                        token: c.token,
-                        quantity: c.quantity
+                try {
+                    for (const c of cart) {
+                        formate.push({
+                            token: c.token,
+                            quantity: c.quantity
+                        });
+                        await new Promise((res, rej) => {
+                            db.run('UPDATE products SET sales = sales + 1 WHERE token = ?', [c.token], (err) => {
+                                if (err) return rej(err);
+                                res();
+                            });
+                        });
+                    }
+                    await new Promise((res, rej) => {
+                        db.run(`UPDATE users SET owner = ?, cart = [] WHERE email = ?`, [JSON.stringify(formate), user.email], (err) => {
+                            if (err) return rej(err);
+                            res();
+                        });
                     });
-
-                    await db.run('UPDATE products SET sales = ? WHERE token = ?', [product.sales + c.quantity, c.token], (err) => {
-                        if (err) throw new Error(err);
-                    });
-                });
-
-                await db.run(`UPDATE users SET owner = ?, cart = [] WHERE email = ?`, [JSON.stringify(formate), user.email], (err) => {
-                    if (err) throw new Error(err);
-                });
+                    
+                    resolve();
+                } catch (e) {
+                    reject(e);
+                }
             });
-
-            resolve();
         });
 
         user.cart = [];
