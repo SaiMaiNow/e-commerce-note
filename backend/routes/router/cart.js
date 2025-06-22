@@ -42,7 +42,7 @@ router.post('/add', async (req, res) => {
         }
 
         const user = req.session.user;
-        if (!user || user.username) {
+        if (!user) {
             return res.status(401).json({ ok: false, message: 'User not authenticated' });
         }
 
