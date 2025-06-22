@@ -38,6 +38,7 @@
               <li><a href="index.html" class="text-white text-decoration-none"><i class="bi bi-house me-2"></i>Home</a>
               </li>
               <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-search me-2"></i>Search</a></li>
+              <input class="me-3" id="searchInput" placeholder="search">
               <li><a href="cart.html" class="text-white text-decoration-none"><i class="bi bi-cart me-2"></i>Cart</a>
               </li>
               <li><a href="signin.html" class="text-white text-decoration-none signin-link"><i
@@ -114,6 +115,12 @@
 
     <div class="album py-5 bg-light">
       <div class="container">
+        <div class="mb-4 text-center" id="categoryButtons">
+          <button class="btn btn-outline-secondary me-2 category-btn" data-category="">All</button>
+          <button class="btn btn-outline-primary me-2 category-btn" data-category="Math">Math</button>
+          <button class="btn btn-outline-primary me-2 category-btn" data-category="Science">Science</button>
+          <button class="btn btn-outline-primary me-2 category-btn" data-category="English">English</button>
+        </div>
 
         <div class="row" id="productList">
           
