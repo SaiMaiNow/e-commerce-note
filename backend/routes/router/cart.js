@@ -16,13 +16,7 @@ router.get('/get', async (req, res) => {
             db.all('SELECT name, price, description, subject, image, token, sales, owner FROM products', [], async (err, rows) => {
                 if (err) reject(err);
                 if (!rows || rows.length <= 0) resolve([]);
-                const data = rows
-                    .filter(p => cart.some(c => c.token == p.token))
-                    .map(p => {
-                        const cartItem = cart.find(c => c.token == p.token);
-                        return { ...p, quantity: cartItem.quantity };
-                    });
-                    
+                const data = rows.filter(p => cart.some(c => c.token == p.token));
                 resolve(data)
             });
         });
@@ -36,9 +30,9 @@ router.get('/get', async (req, res) => {
 
 router.post('/add', async (req, res) => {
     try {
-        const { productToken, quantity } = req.body;
-        if (!productToken || !quantity || quantity <= 0) {
-            return res.status(400).json({ ok: false, message: 'Product or Quantity ID are required' });
+        const { productToken } = req.body;
+        if (!productToken) {
+            return res.status(400).json({ ok: false, message: 'ProductToken are required' });
         }
 
         const user = req.session.user;
@@ -65,14 +59,12 @@ router.post('/add', async (req, res) => {
                 if (!result) return reject(new Error('User not found'));
 
                 let cart = result.cart ? JSON.parse(result.cart) : [];
-
-                const qty = Number(quantity) || 1;
                 const cartIndex = cart.findIndex(item => item.token === productToken);
-                if (cartIndex > -1) {
-                    cart[cartIndex].quantity += qty;
-                } else {
-                    cart.push({ token: productToken, quantity: qty });
+                if (cartIndex > 0) {
+                    return reject(new Error('Product have in cart'));
                 }
+
+                cart.push({ token: productToken });
 
                 user.cart = cart;
 
@@ -92,7 +84,7 @@ router.post('/add', async (req, res) => {
 
 router.put('/update', async (req, res) => {
     try {
-        // ถึง Frontend : CART ต้องเป็น Data Format นี้เท่านั้น [{token: "xxxxxxxxx", quantity: x}]
+        // ถึง Frontend : CART ต้องเป็น Data Format นี้เท่านั้น [{token: "xxxxxxxxx"}]
         const { cart } = req.body;
         if (!cart || !Array.isArray(cart)) {
             return res.status(400).json({ ok: false, message: 'Username and cart are required' });

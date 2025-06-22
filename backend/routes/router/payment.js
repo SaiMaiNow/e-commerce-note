@@ -22,18 +22,12 @@ router.get('/get', async (req, res) => {
                 if (err) reject(err);
                 if (!rows || rows.length <= 0) reject(new Error("Product not found"));
 
-                const data = rows
-                    .filter(p => cart.some(c => c.token == p.token))
-                    .map(p => {
-                        const cartItem = cart.find(c => c.token == p.token);
-                        return { ...p, quantity: cartItem.quantity };
-                    });
+                const data = rows.filter(p => cart.some(c => c.token == p.token));
                 resolve(data);
             });
         });
 
-        const sumprice = mycart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
+        const sumprice = mycart.reduce((sum, item) => sum + item.price, 0);
         const amount = parseFloat(sumprice);
         const mobilenumber = "0616736843";
         const payload = generatePayload(mobilenumber, { amount });
@@ -83,8 +77,7 @@ router.post('/order', [upload.fields([
                 try {
                     for (const c of cart) {
                         formate.push({
-                            token: c.token,
-                            quantity: c.quantity
+                            token: c.token
                         });
                         await new Promise((res, rej) => {
                             db.run('UPDATE products SET sales = sales + 1 WHERE token = ?', [c.token], (err) => {
