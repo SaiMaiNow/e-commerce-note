@@ -76,7 +76,7 @@ router.post('/add', async (req, res) => {
 
                 user.cart = cart;
 
-                db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(cart), username], (err) => {
+                db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(cart), user.username], (err) => {
                     if (err) return reject(err);
                     resolve();
                 });
