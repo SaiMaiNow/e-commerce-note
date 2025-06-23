@@ -44,7 +44,7 @@ document.querySelectorAll('.logout-link').forEach(link => {
       showConfirmButton: false,
       timer: 1000
     }).then(() => {
-      window.location.reload();
+      window.location.href = 'index.html'; 
     });
   });
 });
@@ -111,7 +111,7 @@ async function updateCartCount() {
     const data = await res.json();
 
     if (data.ok && Array.isArray(data.cart)) {
-      const totalItems = data.cart.reduce((sum, item) => sum + item.quantity, 0);
+      const totalItems = data.cart.length;
       cartCountSpan.textContent = totalItems > 0 ? totalItems : '';
     } else {
       cartCountSpan.textContent = '';
