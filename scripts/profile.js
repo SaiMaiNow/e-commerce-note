@@ -45,7 +45,7 @@ async function showMyOrders() {
             <h5 class="card-title">${p.name}</h5>
             <p class="card-text text-muted">${p.description.substring(0, 70)}${p.description.length > 70 ? "..." : ""}</p>
             <p class="product-price text-danger fw-bold">฿${p.price}</p>
-            <a href="/uploads/${p.file}" download class="btn btn-sm btn-success w-100 mt-2">
+            <a href="${p.file}" download class="btn btn-sm btn-success w-100 mt-2">
               <i class="bi bi-download"></i> ดาวน์โหลดชีท
             </a>
           </div>

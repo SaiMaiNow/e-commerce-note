@@ -154,41 +154,33 @@ document.addEventListener("DOMContentLoaded", async () => {
   
 
   document.querySelectorAll(".remove-item-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
       const row = e.target.closest(".cart-row");
-      row.remove();
-      updateCartCount();
-      updateSummary();
-    });
-  });
-
-  document.getElementById("update-cart-btn").addEventListener("click", async () => {
-    const newCart = [];
-    document.querySelectorAll(".cart-row").forEach(row => {
       const token = row.dataset.token;
-      newCart.push({ token });
-    });
-
-    const res = await fetch("http://localhost:4000/api/cart/update", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart: newCart }),
-      credentials: "include"
-    });
-
-    const result = await res.json();
-    if (result.ok) {
-      Swal.fire({
-        icon: "success",
-        title: "Updated",
-        text: result.message,
-        timer: 1500,
-        showConfirmButton: false
+  
+      const res = await fetch("http://localhost:4000/api/cart/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ token })
       });
-      updateCartCount();
-    } else {
-      Swal.fire("Error", result.message, "error");
-    }
+  
+      const result = await res.json();
+  console.log(result);
+      if (result.ok) {
+        row.remove();
+        updateCartCount();
+        updateSummary();
+  
+        const remainingRows = document.querySelectorAll(".cart-row");
+        if (remainingRows.length === 0) {
+          document.getElementById("cartContainer").classList.add("d-none");
+          document.getElementById("empty-cart").classList.remove("d-none");
+        }
+      } else {
+        Swal.fire("Error", result.message || "Failed to remove item", "error");
+      }
+    });
   });
 
   document.querySelector(".btn-primary").addEventListener("click", async () => {

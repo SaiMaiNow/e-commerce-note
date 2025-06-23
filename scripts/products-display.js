@@ -65,7 +65,6 @@ function showProducts(products) {
         
               <div class="card-body">
                 <h5 class="card-title">${p.name}</h5>
-                <p class="card-text">${p.description}</p>
                 <p class="product-price text-danger fw-bold">฿${p.price}</p>
               </div>
           </a>

@@ -95,7 +95,7 @@ router.delete('/delete', async (req, res) => {
             return res.status(401).json({ ok: false, message: 'User not authenticated' });
         }
 
-        user.cart.filter(c => c.token !== token);
+        user.cart = user.cart.filter(c => c.token !== token);
         
         const db = await sqlite3.getDatabase();
         await new Promise((resolve, reject) => {
