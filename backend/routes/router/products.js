@@ -25,7 +25,7 @@ router.get('/get-all', async (req, res) => {
             return res.status(200).json({
                 ok: true,
                 products: rows.map(row => ({
-                    id: row.id,
+                    owner: row.owner,
                     name: row.name,
                     price: row.price,
                     description: row.description,
@@ -47,8 +47,8 @@ router.post('/create', [upload.fields([
 ])], async (req, res) => {
     try {
         const { name, price, description, subject } = req.body;
-        const email = req.session.user.email;
-        if (!email) {
+        const user = req.session.user;
+        if (!user) {
             return res.status(400).json({ ok: false, error: 'Email is required' });
         }
 
@@ -66,7 +66,7 @@ router.post('/create', [upload.fields([
         const token = uuidv4();
 
         db.run(`INSERT INTO products (name, price, description, subject, image, file, token, owner) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [name, price, description, subject, files.image[0].fileUrl, files.file[0].fileUrl, token, email],
+            [name, price, description, subject, files.image[0].fileUrl, files.file[0].fileUrl, token, user.username],
             function (err) {
                 if (err) {
                     throw new Error(err);
