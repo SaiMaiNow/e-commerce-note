@@ -20,24 +20,20 @@ router.get('/', async (req, res) => {
         });
 
         const myorder = await new Promise((resolve, reject) => {
-            db.all('SELECT owner FROM users WHERE email = ?', [user.email], (err, rows) => {
+            db.get('SELECT owner FROM users WHERE email = ?', [user.email], (err, row) => {
                 if (err) reject(err);
-                if (!rows || rows[0].owner) return resolve([]);
+                if (!row || !row.owner) return resolve([]);
 
-                const owner = JSON.parse(rows[0].owner);
+                const owner = JSON.parse(row.owner);
 
-                if (!owner) {
-                    return resolve([]);
-                }
+                if (!owner) return resolve([]);
 
                 db.all('SELECT * FROM products', [], async (err, rows) => {
                     if (err) reject(err)
 
-                    if (!rows || rows.length <= 0) {
-                        return resolve([]);
-                    }
+                    if (!rows || rows.length <= 0) return resolve([]);
 
-                    const data = await rows.filter(p => owner.includes(p.token));
+                    const data = rows.filter(p => owner.some(c => c.token === p.token));
 
                     resolve(data)
                 });

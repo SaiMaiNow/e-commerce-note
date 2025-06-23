@@ -82,28 +82,28 @@ router.post('/add', async (req, res) => {
     }
 });
 
-router.put('/update', async (req, res) => {
+router.delete('/delete', async (req, res) => {
     try {
-        // ถึง Frontend : CART ต้องเป็น Data Format นี้เท่านั้น [{token: "xxxxxxxxx"}]
-        const { cart } = req.body;
-        if (!cart || !Array.isArray(cart)) {
-            return res.status(400).json({ ok: false, message: 'Username and cart are required' });
+        const { token } = req.body;
+
+        if (!token) {
+            return res.status(400).json({ok:false, message: 'token is not send to server'})
         }
+
         const user = req.session.user;
         if (!user || !user.username) {
             return res.status(401).json({ ok: false, message: 'User not authenticated' });
         }
 
+        user.cart.filter(c => c.token !== token);
+        
         const db = await sqlite3.getDatabase();
-
         await new Promise((resolve, reject) => {
-            db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(cart), user.username], (err) => {
+            db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(user.cart), user.username], (err) => {
                 if (err) return reject(err);
                 resolve();
             });
         });
-
-        user.cart = cart;
 
         res.status(200).json({ ok: true, message: 'Cart updated successfully' });
     } catch (err) {
