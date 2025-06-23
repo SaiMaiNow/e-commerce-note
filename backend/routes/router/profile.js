@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         const db = await sqlite3.getDatabase();
 
         const products = await new Promise((resolve, reject) => {
-            db.all('SELECT * FROM products WHERE owner = ?', [user.email], (err, rows) => {
+            db.all('SELECT * FROM products WHERE owner = ?', [user.username], (err, rows) => {
                 if (err) reject(err);
                 resolve(rows);
             });
