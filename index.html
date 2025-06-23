@@ -37,8 +37,6 @@
             <ul class="list-unstyled">
               <li><a href="index.html" class="text-white text-decoration-none"><i class="bi bi-house me-2"></i>Home</a>
               </li>
-              <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-search me-2"></i>Search</a></li>
-              <input class="me-3" id="searchInput" placeholder="search">
               <li><a href="cart.html" class="text-white text-decoration-none"><i class="bi bi-cart me-2"></i>Cart</a>
               </li>
               <li><a href="signin.html" class="text-white text-decoration-none signin-link"><i
@@ -65,9 +63,8 @@
 
         <!-- Desktop Menu -->
         <div class="d-none d-lg-flex align-items-center">
-          <input class="me-3" id="searchInput" placeholder="search">
+          
           <a href="index.html" class="nav-icon text-white me-3" title="Home"><i class="bi bi-house"></i></a>
-          <a href="#" class="nav-icon text-white me-3" title="Search"><i class="bi bi-search"></i></a>
           <a href="cart.html" class="nav-icon text-white me-3" title="Cart"><i class="bi bi-cart"></i>
             <span id="cart-count"
             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
@@ -115,15 +112,22 @@
 
     <div class="album py-5 bg-light">
       <div class="container">
-        <div class="mb-4 text-center" id="categoryButtons">
-          <button class="btn btn-outline-secondary me-2 category-btn" data-category="">All</button>
-          <button class="btn btn-outline-primary me-2 category-btn" data-category="Math">Math</button>
-          <button class="btn btn-outline-primary me-2 category-btn" data-category="Science">Science</button>
-          <button class="btn btn-outline-primary me-2 category-btn" data-category="English">English</button>
+        <div class="row mb-4 justify-content-center">
+          <div class="col-md-6">
+            <input type="text" class="form-control" id="searchInput" placeholder="Search for products...">
+          </div>
+        </div>
+        
+        <div class="mb-4 d-flex flex-wrap justify-content-center gap-2" id="categoryButtons">
+          <button class="btn btn-outline-secondary category-btn" data-category="">All</button>
+          <button class="btn btn-outline-primary category-btn"data-category="math">Math</button>
+          <button class="btn btn-outline-primary category-btn"data-category="science">Science</button>
+          <button class="btn btn-outline-primary category-btn"data-category="social">Social</button>
+          <button class="btn btn-outline-primary category-btn"data-category="english">English</button>
         </div>
 
-        <div class="row" id="productList">
-          
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="productList">
+          <!-- product cards will be injected here -->
         </div>
       </div>
     </div>

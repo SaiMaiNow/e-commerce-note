@@ -15,7 +15,52 @@ async function getMyProducts() {
   return response.myproduct;
 }
 
+async function showMyOrders() {
+  document.getElementById("section-title").textContent = "My Orders";
+
+  const response = await ajax({
+    url: "http://localhost:4000/api/profile",
+    method: "GET",
+  });
+
+  console.log("My Orders Response:", response);
+
+  const orders = response.myorder;
+  const container = document.getElementById("myProductsContainer");
+  container.innerHTML = "";
+
+  if (!orders || orders.length === 0) {
+    document.getElementById("no-products-message").classList.remove("d-none");
+    container.classList.add("d-none");
+    return;
+  }
+
+  orders.forEach((p) => {
+    container.innerHTML += `
+      <div class="col">
+        <div class="card shadow-sm product-card-manage">
+          <img src="${p.image || "https://placehold.co/350x225"}" class="card-img-top" alt="${p.name}">
+          <div class="card-body">
+            <span class="badge bg-success mb-2">${p.subject}</span>
+            <h5 class="card-title">${p.name}</h5>
+            <p class="card-text text-muted">${p.description.substring(0, 70)}${p.description.length > 70 ? "..." : ""}</p>
+            <p class="product-price text-danger fw-bold">฿${p.price}</p>
+            <a href="/uploads/${p.file}" download class="btn btn-sm btn-success w-100 mt-2">
+              <i class="bi bi-download"></i> ดาวน์โหลดชีท
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  container.classList.remove("d-none");
+  document.getElementById("no-products-message").classList.add("d-none");
+}
+
+
 const showMyProducts = async function () {
+  document.getElementById("section-title").textContent = "My Products";
   const products = await getMyProducts();
   const container = document.getElementById("myProductsContainer");
   container.innerHTML = "";
@@ -153,10 +198,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       .getElementById("showMyProductsBtn")
       .addEventListener("click", showMyProducts);
 
+    document.getElementById("showMyOrderBtn").addEventListener("click", showMyOrders);
+ 
+
     const params = new URLSearchParams(window.location.search);
     if (params.get("updated") === "true") {
-      console.log("Detected updated=true → loading my products");
       await showMyProducts();
+    } else if (params.get("orders") === "true") {
+      await showMyOrders();
     }
   } catch (error) {
     console.error("Error in profile.js (DOMContentLoaded):", error);
