@@ -55,7 +55,7 @@ footer p {
 
 
 
-/*Index*/
+/*Index000*/
 /*Navbar*/
 .navbarHeader a {
 
@@ -126,3 +126,19 @@ footer p {
   transform: translateY(0);
 }
 
+.card.fixed-size {
+  min-height: 350px; /* กำหนดความสูงขั้นต่ำ */
+  display: flex;
+  flex-direction: column;
+}
+
+/*Product Card*/
+.card-text.text-muted.text-truncate-2 {
+  white-space: nowrap;        /* ให้ข้อความแสดงเป็นบรรทัดเดียว */
+  overflow: hidden;           /* ซ่อนข้อความที่เกิน */
+  text-overflow: ellipsis;    /* แสดง ... */
+}
+
+  .carousel-indicators button {
+    background-color: #000 !important; /* สีดำ */
+  }

@@ -99,24 +99,30 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // 🎯 แสดงข้อมูลสินค้า
-    document.querySelector(".img-fluid").src = product.image || "https://placehold.co/350x225";
-    document.querySelector(".img-fluid").alt = product.name;
-    document.querySelector("h4.fw-bold").textContent = product.name;
-    document.querySelector(".text-dark").textContent = product.description;
-    document.querySelector(".col-md-7 h4.fw-bold").textContent = product.name;
+   // 🎯 แสดงข้อมูลสินค้า
+    const imgEl = document.querySelector(".img-fluid");
+    if(imgEl){
+      imgEl.src = product.image || "https://placehold.co/350x225";
+      imgEl.alt = product.name || "Product image";
+    }
 
-    document.querySelector('.writer').textContent = product.username || "ผู้ขายไม่ระบุ";
+    const nameEl = document.querySelector(".name");
+    if(nameEl) nameEl.textContent = product.name || "";
 
-    // ราคาสินค้า
-    document.querySelector(".price-value").textContent = product.price;
+    document.querySelectorAll(".description").forEach(el => {
+      el.textContent = product.description || "";
+    });
 
-    // หมวดวิชา
-    const subjectEl = document.querySelector(".mb-1 strong");
-    if (subjectEl) subjectEl.textContent = `หมวดวิชา: ${product.subject}`;
+    const subjectEl = document.querySelector(".subject");
+    if (subjectEl) subjectEl.textContent = "หมวดวิชา: " + ((product.subject || "").charAt(0).toUpperCase() + (product.subject || "").slice(1));
+
+
+    const priceEl = document.querySelector(".price-value");
+    if(priceEl) priceEl.textContent = `฿${product.price || 0}`;
 
     
     
+    // เพิ่ม event listener ให้ปุ่มเพิ่มตะกร้า
     const addToCartBtn = document.querySelector(".js-add-to-cart");
     addToCartBtn.dataset.productToken = product.token;
 

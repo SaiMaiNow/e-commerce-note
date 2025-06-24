@@ -82,36 +82,52 @@ const showMyProducts = async function () {
     const encrypted = encryptToken(p.token);
 
     container.innerHTML += `
-          <div class="col">
-              <div class="card shadow-sm product-card-manage">
-                  <img src="${p?.image}" class="card-img-top" alt="${p.name}">
-                  <div class="card-body">
-                      <span class="badge bg-primary mb-2">${p.subject}</span>
-                      <h5 class="card-title">${p.name}</h5>
-                      <p class="card-text text-muted">${p.description.substring(
-                        0,
-                        70
-                      )}${p.description.length > 70 ? "..." : ""}</p>
-                      <p class="product-price text-danger fw-bold">฿${
-                        p.price
-                      }</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                          <div class="btn-group">
-                              <a href="product-edit.html?code=${encodeURIComponent(
-                                encrypted
-                              )}" class="btn btn-sm btn-outline-primary">
-                                  <i class="bi bi-pencil"></i> Edit
-                              </a>
-                              <button type="button" class="btn btn-sm btn-outline-danger delete-product-btn" data-token="${
-                                p.token
-                              }" data-name="${p.name}">
-                                  <i class="bi bi-trash"></i> Delete
-                              </button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+
+<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+  <div class="card h-100 position-relative product-hover">
+
+    
+      <!-- Block รูปภาพ -->
+      <div class="product-image position-relative overflow-hidden w-100" style="aspect-ratio: 1 / 1;">
+        <img src="${p?.image || ''}" alt="${p?.name || ''}" class="card-img-top w-100 h-100" style="object-fit: cover;">
+        <button class="badge-button btn btn-danger btn-sm position-absolute top-0 start-0 m-2" style="min-height: 30px; text-transform: capitalize;">
+          ${p?.subject || ''}
+        </button>
+      </div>
+
+      <!-- Block รายละเอียด -->
+      <div class="card-body d-flex flex-column justify-content-between">
+
+        <!-- Block ชื่อ + รายบะเอียด -->
+        <div style="margin-bottom: 0.5rem; font-family: 'Noto Sans Thai', sans-serif;">
+          <h5 class="card-title text-truncate mb-0" style="height: 32px; line-height: 1.3;" title="${p?.name || ''}">
+            ${p?.name || ''}
+          </h5>
+        <p class="card-text text-muted text-truncate-2 mb-0" style="font-size: 0.85rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${p?.description || ''}">
+          ${p?.description || ''}
+        </p>
+        </div>
+
+
+        <!-- Block ราคา -->
+        <p class="product-price text-dark fw-bold mt-auto mb-2" style="height: 30px;">
+          ฿${p?.price || ''}
+        </p>
+
+      </div>
+
+
+        <!-- ปุ่ม Edit/Delete -->
+        <div class="d-flex mt-auto mb-3 justify-content-center">
+          <a href="product-edit.html?code=${encodeURIComponent(encrypted)}" class="btn btn-sm btn-outline-primary flex-fill px-4 mx-2">
+            <i class="bi bi-pencil"></i> Edit
+          </a>
+          <button type="button" class="btn btn-sm btn-outline-danger flex-fill px-4 mx-2 delete-product-btn" data-token="${p.token}" data-name="${p.name}">
+            <i class="bi bi-trash"></i> Delete
+          </button>
+        </div>
+
+
       `;
   });
 
