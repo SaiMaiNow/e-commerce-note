@@ -76,39 +76,69 @@
     </div>
   </header>
 
-  <div class="container mt-5" style="font-family: 'Noto Sans Thai', sans-serif; max-width: 1000px;">
-    <div class="row">
-      <!-- รูปหน้าปก -->
-      <div class="col-md-5 text-center">
-        <img src="https://placehold.co/350x225" alt="หน้าปกชีท" class="img-fluid rounded-3 shadow mb-3"
-          style="background-color: #f7941d; width: 100%; max-width: 300px;">
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <div class="card border-0 overflow-hidden">
+        <div class="row g-0 gap-3">
 
-        <h4 class="fw-bold">สรุปฟิสิกส์ ม.ปลาย</h4>
-        <p class="text-dark">ฉบับอ่านเข้ามหาวิทยาลัย</p>
+          <!-- ภาพ -->
+          <div class="col-md d-flex flex-column">
+            <div class="bg-light" style="aspect-ratio: 1 / 1; max-height: 600px;">
+              <img src="" alt="" class="img-fluid w-100 h-100 object-fit-cover">
+              <!-- 🔴 badge ถูกลบออก -->
+            </div>
+          </div>
 
 
-      
-      </div>
 
-      <!-- รายละเอียดชีท -->
-      <div class="col-md-7 mt-4 mt-md-0">
-        <h4 class="fw-bold">– สรุปฟิสิกส์ ม.ปลาย</h4>
-        <p class="mb-2 writer">By <strong>Lucien17</strong></p>
+          
+          <!-- รายละเอียด -->
+          <div class="col-md d-flex flex-column">
+            <div class="card-body d-flex flex-column justify-content-between h-100 gap-3" style="font-family: 'Noto Sans Thai', sans-serif;">
 
-        <div class="d-flex align-items-center mb-3">
-          <div class="price-value" style="font-size: 32px; font-weight: bold; color: #222;">19</div>
-  <div class="ms-2 text-muted">บาท</div>
+              <!-- Block 1: ชื่อ -->
+              <div style="font-family: 'Noto Sans Thai', sans-serif;">
+                <h3 class="fw-bold name text-dark mb-2">ชื่อสินค้า</h3>
+                <p class="subject text-muted mb-3" style="font-size: 1.0rem;">หมวดวิชา</p>
+                <p class="price-value fw-bold text-dark h6 mb-0">฿999</p>
+              </div>
+
+                 <div style="height: 1px; background-color: #ccc; "></div>
+                <!-- Block 4: รายละเอียด แบบเดิม (สำหรับหน้าจอขนาดกลางขึ้นไป) -->
+                <h6 class="fw-bold text-dark pb-0">รายละเอียด</h6>
+                <div class="d-none d-md-block mx-auto"
+                    style="width: 400px; background-color: #f8f9fa; height: 200px; overflow-y: scroll; padding: 0.75rem;">
+                  <p class="description mb-1 pb-2" style="font-size: 0.95rem; line-height: 1.5;"></p>
+                </div>
+
+                <!-- Block 4: รายละเอียด แบบ dropdown (สำหรับหน้าจอเล็ก) -->
+                <div class="d-md-none">
+                  <button class="btn btn-outline-secondary w-100 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#descriptionCollapse" aria-expanded="false" aria-controls="descriptionCollapse">
+                    รายละเอียด <i class="bi bi-chevron-down ms-2"></i>
+                  </button>
+                  <div class="collapse" id="descriptionCollapse" style="background-color: #f8f9fa; padding: 0.75rem;">
+                    <p class="description mb-0" style="font-size: 0.95rem; line-height: 1.5;"></p>
+                  </div>
+                </div>
+
+              <!-- Block 5: ปุ่มเพิ่มตะกร้า -->
+              <div class="text-center">
+                <button class="btn btn-dark js-add-to-cart px-4 py-2" data-product-token="" style="height: 60px; width: 300px;">
+                  <i class="bi bi-cart me-1"></i> เพิ่มลงตะกร้า
+                </button>
+              </div>
+
+            </div>
+          </div>
 
         </div>
-
-
-        <p class="mb-1"><strong class="me-1">หมวดวิชา:</strong></p>
-        <br>
-        <button class="btn btn-primary ms-4 fw-medium px-3 add-to-cart js-add-to-cart">เพิ่มลงตะกร้า</button>
-
       </div>
     </div>
   </div>
+</main>
+
+
 
 
 

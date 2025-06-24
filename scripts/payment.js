@@ -1,4 +1,5 @@
 const amountDisplay = document.getElementById("amount");
+const amountBottom = document.getElementById("amountBottom"); // เพิ่มตัวแปรสำหรับแสดงจำนวนเงินด้านล่าง
 const qrcodeImg = document.getElementById("qrcode"); // เพิ่มตัวแปรสำหรับ img tag
 
 async function initializePaymentPage() {
@@ -14,7 +15,9 @@ async function initializePaymentPage() {
         amount += item.price;
       });
     }
-    amountDisplay.textContent = `฿${amount.toFixed(2)}`;
+    const amountText = `฿${amount.toFixed(2)}`;
+    amountDisplay.textContent = amountText;
+    amountBottom.textContent = amountText; // อัปเดตตัวล่างด้วย
 
     const res = await fetch("http://localhost:4000/api/payment/get", {
       credentials: "include",
