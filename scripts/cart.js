@@ -117,7 +117,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     cartItemsContainer.innerHTML += `
       <tr class="cart-row" data-token="${item.token}" data-price="${item.price}">
         <td class="d-flex align-items-center">
-          <img src="${item.image}" width="60" class="me-3 rounded shadow-sm">
+<img src="${item.image}" 
+     class="me-3 rounded shadow-sm" 
+     style="width: 60px; height: 60px; object-fit: cover;">
           <span class="fw-bold fs-5">${item.name}</span>
         </td>
         <td class="text-center">1</td> <!-- Fixed Quantity -->
