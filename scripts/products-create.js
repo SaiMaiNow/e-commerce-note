@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log("User authenticated:", auth.user);
 
 
-  const form = document.querySelector(".product-form");
+  const form = document.getElementById("upload-form");
   form.classList.remove("d-none");
 
   form.addEventListener("submit", async (e) => {
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       fileName: file.name,
       imageName: image.name
     });
-    try {
+    
       const res = await fetch("http://localhost:4000/api/products/create", {
         method: "POST",
         credentials: "include",
@@ -74,22 +74,20 @@ document.addEventListener("DOMContentLoaded", async () => {
           text: result.message || "Something went wrong!",
           showConfirmButton: true
         });
-        // alert(result.message || "Something went wrong!");
         return;
       }
-      // Swal.fire({
-      //   icon: "success",
-      //   title: "Upload success!",
-      //   text: result.message,
-      //   showConfirmButton: false,
-      //   timer: 60000000
-      // })
-      alert("Product uploaded successfully!");
+      
+      Swal.fire({
+        icon: "success",
+        title: "Upload success!",
+        text: result.message,
+        showConfirmButton: true,
+      }).then(() => {
+        window.location.href = "/index.html";
+      })
+      // alert("Product uploaded successfully!");
 
-    } catch (err) {
-      console.error("Upload error:", err);
-      alert("An error occurred while uploading the product. Please try again.");
-    }
+    
   });
 });
 

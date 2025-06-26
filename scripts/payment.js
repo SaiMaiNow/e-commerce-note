@@ -4,6 +4,14 @@ const qrcodeImg = document.getElementById("qrcode"); // เพิ่มตัว
 
 async function initializePaymentPage() {
   try {
+    const auth = await fetch("http://localhost:4000/api/signin/check", {
+      credentials: "include",
+    }).then((res) => res.json());
+
+    if (!auth.ok) {
+      return (window.location.href = "signin.html");
+    }
+
     const cartRes = await fetch("http://localhost:4000/api/cart/get", {
       credentials: "include",
     });
@@ -17,7 +25,7 @@ async function initializePaymentPage() {
     }
     const amountText = `฿${amount.toFixed(2)}`;
     amountDisplay.textContent = amountText;
-    amountBottom.textContent = amountText; // อัปเดตตัวล่างด้วย
+    amountBottom.textContent = amountText; 
 
     const res = await fetch("http://localhost:4000/api/payment/get", {
       credentials: "include",
@@ -26,7 +34,7 @@ async function initializePaymentPage() {
 
     if (!data.ok) {
       Swal.fire("ผิดพลาด", data.message, "error");
-      return; 
+      return;
     }
     qrcodeImg.src = data.qrcode; // กำหนด src ของรูปภาพ QR Code
   } catch (error) {
@@ -37,12 +45,11 @@ async function initializePaymentPage() {
 
 initializePaymentPage();
 
-const form = document.getElementById("paymentForm");
-form.addEventListener("submit", async (e) => {
+document.getElementById("submitBtn").addEventListener("click", async (e) => {
   e.preventDefault();
 
-  // const slipFile = document.getElementById("slip").files[0];
-  const slipFile = e.target.slip.files[0];
+  const slipFile = document.getElementById("slip").files[0];
+
   if (!slipFile) {
     return Swal.fire("กรุณาแนบสลิป", "", "warning");
   }
@@ -91,7 +98,6 @@ form.addEventListener("submit", async (e) => {
     showConfirmButton: false, // ไม่ต้องมีปุ่มยืนยัน
     timer: 2000, // ซ่อนเองใน 2 วินาที
   }).then(() => {
-    location.href = "/profile.html";
+    window.location.href = "/profile.html";
   });
-  // window.location.href = "/profile.html";
 });

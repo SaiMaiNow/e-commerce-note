@@ -21,7 +21,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     alert("Token ไม่ถูกต้อง");
     return;
   }
-
+  const auth = await fetch("http://localhost:4000/api/signin/check", {
+    credentials: "include"
+  }).then(res => res.json());
+  if (!auth.ok) {
+    return window.location.href = "signin.html";
+  }
+  
   // ดึงข้อมูลสินค้าของเรา
   const res = await fetch("http://localhost:4000/api/profile", {
     credentials: "include"
