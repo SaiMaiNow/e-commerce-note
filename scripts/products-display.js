@@ -112,8 +112,10 @@ function showProducts(products) {
       }
      
       let checkRes = await fetch("http://localhost:4000/api/cart/get", {
+        method: "GET",
         credentials: "include",
       });
+      
       let checkData = await checkRes.json();
       if (
         checkData.ok &&
@@ -151,8 +153,9 @@ function showProducts(products) {
         text: response.message,
         showConfirmButton: false,
         timer: 1000,
+      }).then(() => {
+        updateCartCount();
       });
-      updateCartCount();
     });
   });
 }

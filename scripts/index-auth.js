@@ -106,6 +106,7 @@ async function updateCartCount() {
 
   try {
     const res = await fetch("http://localhost:4000/api/cart/get", {
+      method: "GET",
       credentials: "include",
     });
     const data = await res.json();

@@ -68,40 +68,35 @@ router.post('/order', [upload.fields([
 
         const cart = user.cart;
         const db = await getDatabase();
-        await new Promise((resolve, reject) => {
-            db.get(`SELECT owner FROM users WHERE email = ?`, [user.email], async (err, rows) => {
-                if (err) return reject(err);
+        db.get(`SELECT owner FROM users WHERE email = ?`, [user.email], async (err, rows) => {
+            if (err) return res.status(500).json({ ok: false, message: 'Internal server error' });
 
-                const owner = rows.owner;
-                const formate = owner ? JSON.parse(owner) : [];
-                try {
-                    for (const c of cart) {
-                        formate.push({
-                            token: c.token
-                        });
-                        await new Promise((res, rej) => {
-                            db.run('UPDATE products SET sales = sales + 1 WHERE token = ?', [c.token], (err) => {
-                                if (err) return rej(err);
-                                res();
-                            });
-                        });
-                    }
+            const owner = rows.owner;
+            const formate = owner ? JSON.parse(owner) : [];
+            try {
+                for (const c of cart) {
+                    formate.push({
+                        token: c.token
+                    });
                     await new Promise((res, rej) => {
-                        db.run(`UPDATE users SET owner = ?, cart = ? WHERE email = ?`, [JSON.stringify(formate), '[]', user.email], (err) => {
+                        db.run('UPDATE products SET sales = sales + 1 WHERE token = ?', [c.token], (err) => {
                             if (err) return rej(err);
                             res();
                         });
                     });
-                    
-                    resolve();
-                } catch (e) {
-                    reject(e);
                 }
-            });
+                await new Promise((res, rej) => {
+                    db.run(`UPDATE users SET owner = ?, cart = ? WHERE email = ?`, [JSON.stringify(formate), '[]', user.email], (err) => {
+                        if (err) return rej(err);
+                        res();
+                    });
+                });
+                user.cart = [];
+                res.status(200).json({ ok: true, message: 'successfully' });
+            } catch (e) {
+                res.status(500).json({ ok: false, message: 'Internal server error' });
+            }
         });
-
-        user.cart = [];
-        res.status(200).json({ ok: true, message: 'successfully' });
     } catch (err) {
         console.error('Check payment / :', err);
         res.status(500).json({ ok: false, message: 'Internal server error' });

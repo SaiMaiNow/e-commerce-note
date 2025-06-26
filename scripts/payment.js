@@ -1,12 +1,15 @@
 const amountDisplay = document.getElementById("amount");
 const amountBottom = document.getElementById("amountBottom"); // เพิ่มตัวแปรสำหรับแสดงจำนวนเงินด้านล่าง
 const qrcodeImg = document.getElementById("qrcode"); // เพิ่มตัวแปรสำหรับ img tag
+const qtyCart = document.getElementById("qty-cart");
+const downloadBtn = document.getElementById("downloadQrcode");
+const downloadBtnMobile = document.getElementById("downloadQrcodeM");
 
 async function initializePaymentPage() {
   try {
     const auth = await fetch("http://localhost:4000/api/signin/check", {
       credentials: "include",
-    }).then((res) => res.json());
+    });
 
     if (!auth.ok) {
       return (window.location.href = "signin.html");
@@ -23,9 +26,17 @@ async function initializePaymentPage() {
         amount += item.price;
       });
     }
+
+    if (cartData.cart.length <= 0) {
+      window.location.href = "profile.html";
+      return;
+    }
+
+    qtyCart.innerHTML = cartData.cart.length;
+
     const amountText = `฿${amount.toFixed(2)}`;
     amountDisplay.textContent = amountText;
-    amountBottom.textContent = amountText; 
+    amountBottom.textContent = amountText;
 
     const res = await fetch("http://localhost:4000/api/payment/get", {
       credentials: "include",
@@ -45,19 +56,21 @@ async function initializePaymentPage() {
 
 initializePaymentPage();
 
-document.getElementById("submitBtn").addEventListener("click", async (e) => {
-  e.preventDefault();
+document.getElementById("submitPaymentDesktop").addEventListener("click", handlePayment);
+document.getElementById("submitPaymentMobile").addEventListener("click", handlePayment);
 
+async function handlePayment(e) {
+  e.preventDefault();
   const slipFile = document.getElementById("slip").files[0];
 
   if (!slipFile) {
     return Swal.fire("กรุณาแนบสลิป", "", "warning");
   }
 
-  // ดึง cart จาก backend เพื่อส่งแนบมาด้วย
   const cartRes = await fetch("http://localhost:4000/api/cart/get", {
     credentials: "include",
   });
+
   const cartData = await cartRes.json();
 
   if (!cartData.ok || !cartData.cart || !cartData.cart.length) {
@@ -66,15 +79,7 @@ document.getElementById("submitBtn").addEventListener("click", async (e) => {
 
   const formData = new FormData();
   formData.append("slip", slipFile);
-  formData.append(
-    "cart",
-    JSON.stringify(
-      cartData.cart.map((item) => ({
-        token: item.token,
-      }))
-    )
-  );
-
+  
   const orderRes = await fetch("http://localhost:4000/api/payment/order", {
     method: "POST",
     body: formData,
@@ -82,22 +87,36 @@ document.getElementById("submitBtn").addEventListener("click", async (e) => {
   });
 
   const result = await orderRes.json();
-
-  Swal.close(); // ปิด Loading SweetAlert2
-
-  console.log(result);
   if (!result.ok) {
     return Swal.fire("ผิดพลาด", result.message, "error");
   }
 
-  // ใช้ SweetAlert2 สำหรับแจ้งเตือนสำเร็จ
   await Swal.fire({
     icon: "success",
     title: "ชำระเงินสำเร็จ!",
     text: "รอการตรวจสอบจากแอดมิน",
     showConfirmButton: false, // ไม่ต้องมีปุ่มยืนยัน
     timer: 2000, // ซ่อนเองใน 2 วินาที
-  }).then(() => {
-    window.location.href = "/profile.html";
   });
-});
+
+  window.location.href = "profile.html";
+}
+
+downloadBtnMobile.addEventListener("click", handleDownloadQR);
+
+downloadBtn.addEventListener("click", handleDownloadQR);
+
+function handleDownloadQR(e) {
+  if (!qrcodeImg.src) {
+    Swal.fire("แจ้งเตือน", "ยังไม่มี QR Code ให้ดาวน์โหลด", "warning");
+    e.preventDefault();
+    return;
+  }
+
+  const link = document.createElement('a');
+  link.href = qrcodeImg.src;
+  link.download = 'qrcode.png';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}

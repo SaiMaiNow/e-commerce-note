@@ -53,29 +53,25 @@ router.post('/add', async (req, res) => {
             return res.status(404).json({ ok: false, message: 'Product not found' });
         }
 
-        await new Promise((resolve, reject) => {
-            db.get(`SELECT cart FROM users WHERE username = ?`, [user.username], (err, result) => {
-                if (err) return reject(err);
-                if (!result) return reject(new Error('User not found'));
+        db.get(`SELECT cart FROM users WHERE username = ?`, [user.username], (err, result) => {
+            if (err) return res.status(500).json({ ok: false, message: 'Internal server error' });
+            if (!result) return res.status(404).json({ ok: false, message: 'User not found' });
 
-                let cart = result.cart ? JSON.parse(result.cart) : [];
-                const cartIndex = cart.findIndex(item => item.token === productToken);
-                if (cartIndex > 0) {
-                    return reject(new Error('Product have in cart'));
-                }
+            let cart = result.cart ? JSON.parse(result.cart) : [];
+            const cartIndex = cart.findIndex(item => item.token === productToken);
+            if (cartIndex > 0) {
+                return res.status(400).json({ ok: false, message: 'Product have in cart' });
+            }
 
-                cart.push({ token: productToken });
+            cart.push({ token: productToken });
 
-                user.cart = cart;
+            user.cart = cart;
 
-                db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(cart), user.username], (err) => {
-                    if (err) return reject(err);
-                    resolve();
-                });
+            db.run(`UPDATE users SET cart = ? WHERE username = ?`, [JSON.stringify(cart), user.username], (err) => {
+                if (err) return res.status(500).json({ ok: false, message: 'Internal server error' });
+                res.status(200).json({ ok: true, message: 'Product added to cart successfully' });
             });
         });
-
-        res.status(200).json({ ok: true, message: 'Product added to cart successfully' });
     } catch (err) {
         console.error('Add to cart / :', err);
         res.status(500).json({ ok: false, message: 'Internal server error' });

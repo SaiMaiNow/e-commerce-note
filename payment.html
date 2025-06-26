@@ -13,8 +13,6 @@
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
 
-
-
   <style>
     .btn-success {
       background-color: #198754;
@@ -81,7 +79,7 @@
 
     <div class="d-flex justify-content-between mt-4">
       <div><strong>จำนวนสินค้า</strong></div>
-      <div class="text-danger fw-bold">2<span> ชิ้น</span></div>
+      <div id="qty-cart" class="text-danger fw-bold">0<span> ชิ้น</span></div>
 
     </div>
 
@@ -102,7 +100,7 @@
     <div class="text-center mb-4 d-flex flex-column align-items-center">
 
       <!-- QR Code -->
-      <img id="qrcode" src="images/qrcode.png" alt="QR Code" class="img-fluid" style="width: 250px; height: auto;">
+      <img id="qrcode" src="" alt="QR Code" class="img-fluid" style="width: 250px; height: auto;">
 
       <!-- Amount -->
       <div class="mt-1">
@@ -119,17 +117,18 @@
     <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div>
 
 
-    <form id="paymentForm" class="pt-2">
+    <div class="pt-2">
       <div class="mb-3">
         <label for="slip" class="form-label fw-semibold">อัปโหลดสลิปการชำระเงิน</label>
         <input type="file" class="form-control" id="slip" name="slip" accept="image/*" required>
       </div>
       <div class="d-none d-md-flex justify-content-center gap-3 mt-4">
-        <a id="downloadQrcode" class="btn btn-outline-success fw-medium fs-6 px-4 py-2" href="#"
-          download="qrcode.png">บันทึก QR Code</a>
-        <button id="submitBtn" type="button" class="btn btn-success fw-medium fs-6 px-4 py-2">ยืนยันการชำระเงิน</button>
+        <button type="button" id="downloadQrcode" class="btn btn-outline-success fw-medium fs-6 px-4 py-2">บันทึก QR
+          Code</button>
+        <button type="button" id="submitPaymentDesktop"
+          class="btn btn-success fw-medium fs-6 px-4 py-2">ยืนยันการชำระเงิน</button>
       </div>
-    </form>
+    </div>
   </div>
 
   <div class="container-fluid bg-light pt-0 pb-5 mt-4">
@@ -153,44 +152,17 @@
   <!-- ปุ่มติดด้านล่าง -->
   <div class="fixed-bottom bg-white border-top shadow-sm py-3 px-3 d-md-none">
     <div class="d-flex justify-content-center gap-2">
-      <a id="downloadQrcode" class="btn btn-outline-success w-50 fw-medium fs-6" href="#" download="qrcode.png">บันทึก
-        QR Code</a>
-      <button type="button" id="submitBtn" class="btn btn-success w-50 fw-medium fs-6" form="paymentForm">ยืนยันการชำระเงิน</button>
+      <button type="button" id="downloadQrcodeM" class="btn btn-outline-success w-50 fw-medium fs-6">บันทึก QR
+        Code</button>
+      <button type="button" id="submitPaymentMobile"
+        class="btn btn-success w-50 fw-medium fs-6">ยืนยันการชำระเงิน</button>
     </div>
   </div>
 
-
-
-
-
-
-
-
-
   <!-- Scripts -->
   <script src="scripts/payment.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const downloadBtn = document.getElementById("downloadQrcode");
-      const qrImg = document.getElementById("qrcode");
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-      // ถ้า QR โหลดมาแบบ base64 หรือ URL
-      downloadBtn.addEventListener("click", function (e) {
-        if (!qrImg.src) {
-          alert("ยังไม่มี QR Code ให้ดาวน์โหลด");
-          e.preventDefault();
-          return;
-        }
-
-        downloadBtn.href = qrImg.src;
-
-        // Optional: ถ้าเป็น base64 จะกำหนดชื่อให้เหมาะสม
-        if (qrImg.src.startsWith("data:image")) {
-          downloadBtn.download = "qrcode.png";
-        }
-      });
-    });
-  </script>
 </body>
 
 </html>
