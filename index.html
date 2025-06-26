@@ -35,8 +35,6 @@
           <div class="col-12 py-4">
             <h4 class="text-white mt-4">Menu</h4>
             <ul class="list-unstyled">
-              <li><a href="index.html" class="text-white text-decoration-none"><i class="bi bi-house-fill me-2"></i>Home</a>
-              </li>
               <li><a href="cart.html" class="text-white text-decoration-none"><i class="bi bi-cart-fill me-2"></i>Cart</a>
               </li>
               <li><a href="signin.html" class="text-white text-decoration-none signin-link"><i
@@ -62,8 +60,6 @@
 
         <!-- Desktop Menu -->
         <div class="d-none d-lg-flex align-items-center">
-          
-          <a href="index.html" class="nav-icon text-white me-3" title="Home"><i class="bi bi-house-fill"></i></a>
           <a href="cart.html" class="nav-icon text-white me-3" title="Cart"><i class="bi bi-cart-fill"></i>
             <span id="cart-count"
             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
@@ -196,7 +192,77 @@
 
   </main>
 
-  <div class="container"> <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"> <div class="col-md-4 d-flex align-items-center"> <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1" aria-label="Bootstrap"> <svg class="bi" width="30" height="24" aria-hidden="true"><use xlink:href="#bootstrap"></use></svg> </a> <span class="mb-3 mb-md-0 text-body-secondary">© 2025 Company, Inc</span> </div> <ul class="nav col-md-4 justify-content-end list-unstyled d-flex"> <li class="ms-3"><a class="text-body-secondary" href="#" aria-label="Instagram"><svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#instagram"></use></svg></a></li> <li class="ms-3"><a class="text-body-secondary" href="#" aria-label="Facebook"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li> </ul> </footer> </div>
+
+<div class="container">
+<footer class="row row-cols-1 row-cols-md-3 align-items-center py-4 my-4 border-top text-center text-md-start">
+    
+    <!-- © name -->
+    <div class="col mb-3 mb-md-0 text-muted">
+      <p class="mb-0">© e-commerce-note</p>
+    </div>
+
+    <!-- LOGO CENTERED -->
+    <div class="col mb-3 mb-md-0 d-flex justify-content-center">
+      <a href="/" class="text-muted text-decoration-none d-flex align-items-center">
+        <strong class="fs-4 fw-bold">
+          <i class="bi bi-journal-text me-2 ms-2"></i>NOTEKUB
+        </strong>
+      </a>
+    </div>
+
+<!-- MENU RIGHT -->
+<div class="col d-flex justify-content-center justify-content-md-end position-relative">
+ <ul class="nav fade-in text-center d-flex flex-row flex-wrap justify-content-center justify-content-md-end" id="navMenu">
+    <li class="nav-item position-relative">
+      <a href="https://github.com/SaiMaiNow" class="nav-link px-2 text-muted hover-pop" data-hover="SaiMaiNow">Project Lead</a>
+      <div class="custom-tooltip">
+        <img src="https://avatars.githubusercontent.com/u/143895811?v=4" class="me-2 rounded-circle" alt="icon">
+        <span>SaiMaiNow</span>
+      </div>
+    </li>
+    <li class="nav-item position-relative">
+      <a href="https://github.com/pppskk" class="nav-link px-2 text-muted hover-pop" data-hover="pppskk">IntegrationDev</a>
+      <div class="custom-tooltip">
+        <img src="https://avatars.githubusercontent.com/u/188332829?v=4" class="me-2 rounded-circle" alt="icon">
+        <span>pppskk</span>
+      </div>
+    </li>
+    <li class="nav-item position-relative">
+      <a href="https://github.com/Methat-i" class="nav-link px-2 text-muted hover-pop" data-hover="Methat-i">InteractionDev</a>
+      <div class="custom-tooltip">
+        <img src="https://avatars.githubusercontent.com/u/184202473?v=4" class="me-2 rounded-circle" alt="icon">
+        <span>Methat-i</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+  </footer>
+</div>
+
+
+<script>
+  // เลือกทุก <a> ที่อยู่ภายใน #navMenu และมีคลาส .hover-pop
+  document.querySelectorAll('#navMenu .hover-pop').forEach(link => {
+    // เก็บข้อความดั้งเดิมที่แสดงในลิงก์ไว้
+    const originalText = link.textContent;
+
+    // ดึงข้อความที่จะเปลี่ยนเมื่อเมาส์เลื่อนผ่านจาก attribute data-hover
+    const hoverText = link.getAttribute('data-hover');
+
+    // เมาส์เลื่อนผ่านลิงก์ (mouseover) ให้เปลี่ยนข้อความเป็นข้อความใน data-hover
+    link.addEventListener('mouseover', () => {
+      link.textContent = hoverText;
+    });
+
+    // เมาส์ออกจากลิงก์ (mouseout) ให้เปลี่ยนข้อความกลับเป็นข้อความดั้งเดิม
+    link.addEventListener('mouseout', () => {
+      link.textContent = originalText;
+    });
+  });
+</script>
+
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
