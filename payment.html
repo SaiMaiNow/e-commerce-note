@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>ชำระเงิน</title>
 
   <!-- Bootstrap + Icons -->
@@ -11,12 +12,10 @@
 
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
- 
+
 
 
   <style>
-
-
     .btn-success {
       background-color: #198754;
       border: none;
@@ -36,61 +35,63 @@
 
 
 
-@media (max-width: 576px) {
+    @media (max-width: 576px) {
 
 
-  .btn {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-  }
+      .btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+      }
 
-  .form-label,
-  .fw-semibold,
-  ol.step-list li {
-    font-size: 0.9rem;
-  }
+      .form-label,
+      .fw-semibold,
+      ol.step-list li {
+        font-size: 0.9rem;
+      }
 
-  .step-list {
-    padding-left: 1rem;
-  }
-}
-
+      .step-list {
+        padding-left: 1rem;
+      }
+    }
   </style>
 </head>
+
 <body class="bg-white text-body" style="font-family: 'Noto Sans Thai', sans-serif;">
 
   <!-- Header -->
-<div class="bg-light border-bottom py-3">
-  <div class="container d-flex align-items-center">
-    <a href="cart.html" class="me-3 text-dark text-decoration-none">
-      <i class="bi bi-arrow-left fs-4"></i>
-    </a>
-    <span class="fw-semibold fs-5">ข้อมูลการชำระเงิน</span>
+  <div class="bg-light border-bottom py-3">
+    <div class="container d-flex align-items-center">
+      <a href="cart.html" class="me-3 text-dark text-decoration-none">
+        <i class="bi bi-arrow-left fs-4"></i>
+      </a>
+      <span class="fw-semibold fs-5">ข้อมูลการชำระเงิน</span>
+    </div>
   </div>
-</div>
 
   <!-- Main Container -->
-  <div class="container pt-2" >
+  <div class="container pt-2">
 
     <div class="d-flex justify-content-between  mt-3">
-            <div><strong>ยอดชำระเงินทั้งหมด</strong></div>
-             <span id="amount" class="text-success fw-semibold fs-6 fs-sm-5"> ฿0.00</span>
+      <div><strong>ยอดชำระเงินทั้งหมด</strong></div>
+      <span id="amount" class="text-success fw-semibold fs-6 fs-sm-5"> ฿0.00</span>
 
     </div>
-    
+
     <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div>
 
     <div class="d-flex justify-content-between mt-4">
-            <div><strong>จำนวนสินค้า</strong></div>
-            <div class="text-danger fw-bold">2<span> ชิ้น</span></div>
-            
+      <div><strong>จำนวนสินค้า</strong></div>
+      <div class="text-danger fw-bold">2<span> ชิ้น</span></div>
+
     </div>
 
     <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div>
 
-      <!-- Thai QR Header -->
-    <div class="qr-header d-flex justify-content-center align-items-center mb-0 px-0" style="color: white; background-color: #1A3B6C; padding: 0.3rem 0.6rem; border-radius: 0.25rem;">
-      <img class="qr-icon me-2" src="picture\Thai_QR_Payment_Logo-02.jpg" alt="Thai QR Payment Icon" style="height: 38px;">
+    <!-- Thai QR Header -->
+    <div class="qr-header d-flex justify-content-center align-items-center mb-0 px-0"
+      style="color: white; background-color: #1A3B6C; padding: 0.3rem 0.6rem; border-radius: 0.25rem;">
+      <img class="qr-icon me-2" src="picture\Thai_QR_Payment_Logo-02.jpg" alt="Thai QR Payment Icon"
+        style="height: 38px;">
       <div class="text-uppercase fw-medium text-center" style="font-size: 13px; line-height: 1.2;">
         <div class="fw-semibold">THAI QR</div>
         <div class="fw-semibold">PAYMENT</div>
@@ -98,7 +99,7 @@
     </div>
 
 
-    <div class="text-center mb-4 d-flex flex-column align-items-center" >
+    <div class="text-center mb-4 d-flex flex-column align-items-center">
 
       <!-- QR Code -->
       <img id="qrcode" src="images/qrcode.png" alt="QR Code" class="img-fluid" style="width: 250px; height: auto;">
@@ -115,7 +116,7 @@
     </div>
 
 
-     <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div>
+    <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div>
 
 
     <form id="paymentForm" class="pt-2">
@@ -123,38 +124,40 @@
         <label for="slip" class="form-label fw-semibold">อัปโหลดสลิปการชำระเงิน</label>
         <input type="file" class="form-control" id="slip" name="slip" accept="image/*" required>
       </div>
-    <div class="d-none d-md-flex justify-content-center gap-3 mt-4">
-    <a id="downloadQrcode" class="btn btn-outline-success fw-medium fs-6 px-4 py-2" href="#" download="qrcode.png">บันทึก QR Code</a>
-    <button type="submit" class="btn btn-success fw-medium fs-6 px-4 py-2">ยืนยันการชำระเงิน</button>
-    </div>
+      <div class="d-none d-md-flex justify-content-center gap-3 mt-4">
+        <a id="downloadQrcode" class="btn btn-outline-success fw-medium fs-6 px-4 py-2" href="#"
+          download="qrcode.png">บันทึก QR Code</a>
+        <button id="submitBtn" type="button" class="btn btn-success fw-medium fs-6 px-4 py-2">ยืนยันการชำระเงิน</button>
+      </div>
     </form>
   </div>
 
-<div class="container-fluid bg-light pt-0 pb-5 mt-4">
-  <div class="container px-3 px-md-4">
-    <br>
-    <p class="fw-semibold mb-2">กรุณาทำตามขั้นตอนที่แนะนำ</p>
-    <ol class="step-list ps-3">
-      <li>คลิกปุ่ม “บันทึก QR” หรือแคปหน้าจอ</li>
-      <li>เปิดแอปพลิเคชันธนาคารบนอุปกรณ์ของท่าน</li>
-      <li>เลือกไปที่เมนู “สแกน” หรือ “QR Code” </li>
-      <li>เลือกภาพที่ท่านแคปไว้และทำการชำระเงิน โดยกรุณาเช็คชื่อบัญชีผู้รับคือ “นายรชานนท์ อินต๊ะมี”</li>
-      <li>อัปโหลดสลิปการชำระเงินของท่านที่ได้ชำระเงินไว้</li>
-      <li>ค่าสั่งซื้อจะได้รับการยืนยันทันทีหลังจากชำระเงินสำเร็จ</li>
-    </ol>
-     <small class="text-muted d-block mt-3 mb-5 mb-md-0">
-      หมายเหตุ : ช่องทางชำระเงินพร้อมเพย์ใช้ได้กับแอปพลิเคชันธนาคารเท่านั้น ไม่สามารถชำระผ่านสาขาธนาคารหรือตู้เอทีเอ็ม
-    </small>
+  <div class="container-fluid bg-light pt-0 pb-5 mt-4">
+    <div class="container px-3 px-md-4">
+      <br>
+      <p class="fw-semibold mb-2">กรุณาทำตามขั้นตอนที่แนะนำ</p>
+      <ol class="step-list ps-3">
+        <li>คลิกปุ่ม “บันทึก QR” หรือแคปหน้าจอ</li>
+        <li>เปิดแอปพลิเคชันธนาคารบนอุปกรณ์ของท่าน</li>
+        <li>เลือกไปที่เมนู “สแกน” หรือ “QR Code” </li>
+        <li>เลือกภาพที่ท่านแคปไว้และทำการชำระเงิน โดยกรุณาเช็คชื่อบัญชีผู้รับคือ “นายรชานนท์ อินต๊ะมี”</li>
+        <li>อัปโหลดสลิปการชำระเงินของท่านที่ได้ชำระเงินไว้</li>
+        <li>ค่าสั่งซื้อจะได้รับการยืนยันทันทีหลังจากชำระเงินสำเร็จ</li>
+      </ol>
+      <small class="text-muted d-block mt-3 mb-5 mb-md-0">
+        หมายเหตุ : ช่องทางชำระเงินพร้อมเพย์ใช้ได้กับแอปพลิเคชันธนาคารเท่านั้น ไม่สามารถชำระผ่านสาขาธนาคารหรือตู้เอทีเอ็ม
+      </small>
     </div>
-    </div>
-
-<!-- ปุ่มติดด้านล่าง -->
-<div class="fixed-bottom bg-white border-top shadow-sm py-3 px-3 d-md-none">
-  <div class="d-flex justify-content-center gap-2">
-    <a id="downloadQrcode" class="btn btn-outline-success w-50 fw-medium fs-6" href="#" download="qrcode.png">บันทึก QR Code</a>
-    <button type="submit" class="btn btn-success w-50 fw-medium fs-6" form="paymentForm">ยืนยันการชำระเงิน</button>
   </div>
-</div>
+
+  <!-- ปุ่มติดด้านล่าง -->
+  <div class="fixed-bottom bg-white border-top shadow-sm py-3 px-3 d-md-none">
+    <div class="d-flex justify-content-center gap-2">
+      <a id="downloadQrcode" class="btn btn-outline-success w-50 fw-medium fs-6" href="#" download="qrcode.png">บันทึก
+        QR Code</a>
+      <button type="button" id="submitBtn" class="btn btn-success w-50 fw-medium fs-6" form="paymentForm">ยืนยันการชำระเงิน</button>
+    </div>
+  </div>
 
 
 
@@ -167,26 +170,27 @@
   <!-- Scripts -->
   <script src="scripts/payment.js"></script>
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const downloadBtn = document.getElementById("downloadQrcode");
-    const qrImg = document.getElementById("qrcode");
+    document.addEventListener("DOMContentLoaded", function () {
+      const downloadBtn = document.getElementById("downloadQrcode");
+      const qrImg = document.getElementById("qrcode");
 
-    // ถ้า QR โหลดมาแบบ base64 หรือ URL
-    downloadBtn.addEventListener("click", function (e) {
-      if (!qrImg.src) {
-        alert("ยังไม่มี QR Code ให้ดาวน์โหลด");
-        e.preventDefault();
-        return;
-      }
+      // ถ้า QR โหลดมาแบบ base64 หรือ URL
+      downloadBtn.addEventListener("click", function (e) {
+        if (!qrImg.src) {
+          alert("ยังไม่มี QR Code ให้ดาวน์โหลด");
+          e.preventDefault();
+          return;
+        }
 
-      downloadBtn.href = qrImg.src;
+        downloadBtn.href = qrImg.src;
 
-      // Optional: ถ้าเป็น base64 จะกำหนดชื่อให้เหมาะสม
-      if (qrImg.src.startsWith("data:image")) {
-        downloadBtn.download = "qrcode.png";
-      }
+        // Optional: ถ้าเป็น base64 จะกำหนดชื่อให้เหมาะสม
+        if (qrImg.src.startsWith("data:image")) {
+          downloadBtn.download = "qrcode.png";
+        }
+      });
     });
-  });
-</script>
+  </script>
 </body>
+
 </html>

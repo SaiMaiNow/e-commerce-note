@@ -12,7 +12,6 @@ const ajax = async (config) => {
   return await request.json();
 };
 
-// Update cart count in header
 async function updateCartCount() {
   const cartCountSpan = document.getElementById("cart-count");
   if (!cartCountSpan) return;
@@ -22,23 +21,24 @@ async function updateCartCount() {
       credentials: "include",
     });
     const data = await res.json();
-    cartCountSpan.textContent = data.ok && Array.isArray(data.cart) && data.cart.length > 0
-      ? data.cart.length
-      : '';
+    cartCountSpan.textContent =
+      data.ok && Array.isArray(data.cart) && data.cart.length > 0
+        ? data.cart.length
+        : "";
   } catch (err) {
     console.error("Failed to load cart count:", err);
   }
 }
 
-document.querySelectorAll('.logout-link').forEach(link => {
-  link.addEventListener('click', async function (e) {
+document.querySelectorAll(".logout-link").forEach((link) => {
+  link.addEventListener("click", async function (e) {
     e.preventDefault();
 
     console.log("logout function called");
     let config = {
-      url: 'http://localhost:4000/api/signin/logout',
-      method: 'POST',
-    }
+      url: "http://localhost:4000/api/signin/logout",
+      method: "POST",
+    };
 
     let response = await ajax(config);
 
@@ -56,19 +56,25 @@ document.querySelectorAll('.logout-link').forEach(link => {
       title: "Logout success!",
       text: response.message,
       showConfirmButton: false,
-      timer: 1000
+      timer: 1000,
     }).then(() => {
-      window.location.href = 'index.html'; 
+      window.location.href = "index.html";
     });
   });
 });
 
-
 document.addEventListener("DOMContentLoaded", async () => {
+  const auth = await fetch("http://localhost:4000/api/signin/check", {
+    credentials: "include",
+  }).then((res) => res.json());
+
+  if (!auth.ok) {
+    return (window.location.href = "signin.html");
+  }
+
   await updateCartCount();
 
-  const params = new URLSearchParams(window.location.search);
-  const productToken = params.get("token");
+  const productToken = sessionStorage.getItem("productToken");
 
   if (!productToken) {
     Swal.fire("Error", "ไม่พบสินค้า", "error").then(() => {
@@ -78,19 +84,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const productRes = await fetch("http://localhost:4000/api/products/get-all", {
-      credentials: "include",
-    });
+    const productRes = await fetch(
+      "http://localhost:4000/api/products/get-all",
+      {
+        credentials: "include",
+      }
+    );
     const productData = await productRes.json();
 
     if (!productData.ok || !Array.isArray(productData.products)) {
-      Swal.fire("Error", productData.message || "โหลดข้อมูลสินค้าไม่สำเร็จ", "error").then(() => {
+      Swal.fire(
+        "Error",
+        productData.message || "โหลดข้อมูลสินค้าไม่สำเร็จ",
+        "error"
+      ).then(() => {
         window.location.href = "index.html";
       });
       return;
     }
 
-    const product = productData.products.find(p => p.token === productToken);
+    const product = productData.products.find((p) => p.token === productToken);
 
     if (!product) {
       Swal.fire("Error", "ไม่พบสินค้า", "error").then(() => {
@@ -99,29 +112,30 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-   // 🎯 แสดงข้อมูลสินค้า
+    // 🎯 แสดงข้อมูลสินค้า
     const imgEl = document.querySelector(".img-fluid");
-    if(imgEl){
+    if (imgEl) {
       imgEl.src = product.image || "https://placehold.co/350x225";
       imgEl.alt = product.name || "Product image";
     }
 
     const nameEl = document.querySelector(".name");
-    if(nameEl) nameEl.textContent = product.name || "";
+    if (nameEl) nameEl.textContent = product.name || "";
 
-    document.querySelectorAll(".description").forEach(el => {
+    document.querySelectorAll(".description").forEach((el) => {
       el.textContent = product.description || "";
     });
 
     const subjectEl = document.querySelector(".subject");
-    if (subjectEl) subjectEl.textContent = "หมวดวิชา: " + ((product.subject || "").charAt(0).toUpperCase() + (product.subject || "").slice(1));
-
+    if (subjectEl)
+      subjectEl.textContent =
+        "หมวดวิชา: " +
+        ((product.subject || "").charAt(0).toUpperCase() +
+          (product.subject || "").slice(1));
 
     const priceEl = document.querySelector(".price-value");
-    if(priceEl) priceEl.textContent = `฿${product.price || 0}`;
+    if (priceEl) priceEl.textContent = `฿${product.price || 0}`;
 
-    
-    
     // เพิ่ม event listener ให้ปุ่มเพิ่มตะกร้า
     const addToCartBtn = document.querySelector(".js-add-to-cart");
     addToCartBtn.dataset.productToken = product.token;
@@ -131,11 +145,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!token) return;
 
       const checkRes = await fetch("http://localhost:4000/api/cart/get", {
-        credentials: "include"
+        credentials: "include",
       });
       const checkData = await checkRes.json();
 
-      if (checkData.ok && checkData.cart.some(p => p.token === token)) {
+      if (checkData.ok && checkData.cart.some((p) => p.token === token)) {
         Swal.fire("สินค้าอยู่ในตะกร้าแล้ว", "", "info");
         return;
       }
@@ -145,8 +159,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         method: "POST",
         data: {
           productToken: token,
-          quantity: 1
-        }
+          quantity: 1,
+        },
       };
 
       const res = await ajax(config);
@@ -160,12 +174,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         title: "เพิ่มลงตะกร้าแล้ว!",
         text: res.message,
         showConfirmButton: false,
-        timer: 1000
+        timer: 1000,
       });
 
       updateCartCount();
     });
-
   } catch (error) {
     console.error("Error fetching product details:", error);
     Swal.fire("Error", "เกิดข้อผิดพลาดในการโหลดสินค้า", "error").then(() => {

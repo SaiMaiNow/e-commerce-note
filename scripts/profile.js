@@ -28,11 +28,13 @@ async function showMyOrders() {
   const orders = response.myorder;
   const container = document.getElementById("myProductsContainer");
   container.innerHTML = "";
+  document.getElementById("no-products-message-order").classList.add("d-none");
 
   if (!orders || orders.length === 0) {
-    document.getElementById("no-products-message").classList.remove("d-none");
-    container.classList.add("d-none");
-    return;
+    document.getElementById("no-products-message").classList.add("d-none"); // ซ่อนอันเก่า
+  document.getElementById("no-products-message-order").classList.remove("d-none");
+  container.classList.add("d-none");
+  return;
   }
 
   orders.forEach((p) => {
@@ -82,9 +84,10 @@ async function showMyOrders() {
 
       `;
   });
-
-  container.classList.remove("d-none");
+  
   document.getElementById("no-products-message").classList.add("d-none");
+  document.getElementById("no-products-message-order").classList.add("d-none");
+  container.classList.remove("d-none");
 }
 
 
@@ -93,21 +96,23 @@ const showMyProducts = async function () {
   const products = await getMyProducts();
   const container = document.getElementById("myProductsContainer");
   container.innerHTML = "";
+  document.getElementById("no-products-message").classList.add("d-none");
 
   if (!products || products.length === 0) {
+    document.getElementById("no-products-message-order").classList.add("d-none"); 
     document.getElementById("no-products-message").classList.remove("d-none");
     document.getElementById("myProductsContainer").classList.add("d-none");
     return;
   }
   console.log(products);
 
-  products.forEach((p) => {
-    const secretKey = "mySecret123";
+  const secretKey = "mySecret123";
 
     function encryptToken(token) {
       return CryptoJS.AES.encrypt(token, secretKey).toString();
     }
 
+  products.forEach((p) => {
     const encrypted = encryptToken(p.token);
 
     container.innerHTML += `
@@ -160,8 +165,11 @@ const showMyProducts = async function () {
       `;
   });
 
+  document.getElementById("no-products-message").classList.add("d-none"); // ซ่อนอันนี้ด้วย ถ้ามี product แล้ว
+  document.getElementById("no-products-message-order").classList.add("d-none");
   container.classList.remove("d-none");
-  document.getElementById("no-products-message").classList.add("d-none");
+
+  
 
   document.querySelectorAll(".delete-product-btn").forEach((button) => {
     button.addEventListener("click", async (e) => {

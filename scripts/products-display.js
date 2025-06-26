@@ -56,10 +56,11 @@ function showProducts(products) {
   
   products.forEach((p) => {
     container.innerHTML += `
-<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+  <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
   <div class="card h-100 position-relative product-hover">
 
-    <a href="products-detail.html?token=${p.token}" class="text-decoration-none text-dark d-flex flex-column h-100">
+  <a href="#" class="text-decoration-none text-dark d-flex flex-column h-100 view-detail-btn product-card" data-token="${p.token}">
+
 
       <!-- Block รูปภาพ -->
       <div class="product-image position-relative overflow-hidden w-100  border rounded" style="aspect-ratio: 1 / 1;">
@@ -109,7 +110,7 @@ function showProducts(products) {
         console.error("No product token found");
         return;
       }
-      // 🔍 ตรวจสอบก่อนว่าอยู่ในตะกร้าอยู่แล้วไหม
+     
       let checkRes = await fetch("http://localhost:4000/api/cart/get", {
         credentials: "include",
       });
@@ -183,4 +184,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       btn.classList.add("active");
     });
   });
+  document.querySelectorAll(".product-card").forEach((card) => {
+    card.addEventListener("click", (e) => {
+      e.preventDefault();
+      const token = card.dataset.token;
+      if (!token) return;
+  
+      sessionStorage.setItem("productToken", token);
+      window.location.href = "products-detail.html";
+    });
+  });
+  
 });
